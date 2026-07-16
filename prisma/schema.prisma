@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  order     Int       @default(0)
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Product {
+  id             String         @id @default(cuid())
+  name           String
+  slug           String         @unique
+  categoryId     String
+  category       Category       @relation(fields: [categoryId], references: [id])
+  description    String
+  specifications Json? // key/value spec table
+  applications   String[]
+  features       String[]
+  featured       Boolean        @default(false)
+  price          Float?
+  datasheetUrl   String?
+  metaTitle      String?
+  metaDescription String?
+  images         ProductImage[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+}
+
+model ProductImage {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  publicId  String // cloudinary public_id, needed to delete from cloudinary
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String
+  icon        String   @default("wrench")
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Partner {
+  id          String   @id @default(cuid())
+  name        String
+  logoUrl     String
+  logoPublicId String?
+  website     String?
+  description String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+// Singleton row holding all editable homepage content
+model Homepage {
+  id               String   @id @default("homepage")
+  heroTitleLine1   String   @default("Pure Air.")
+  heroTitleLine2   String   @default("Powerful Performance.")
+  heroSubtitle     String   @default("High quality air filters and air compressors built for reliability and efficiency.")
+  heroPrimaryLabel String   @default("View Products")
+  heroPrimaryHref  String   @default("/products")
+  heroSecondaryLabel String @default("Our Services")
+  heroSecondaryHref String  @default("/services")
+  heroImageUrl     String?
+  featureCards     Json? // array of {icon,title,description}
+  aboutHeading     String   @default("About Us")
+  aboutBody        String   @default("KOEB is a trusted supplier of high quality air filters and air compressors for industrial, commercial and automotive applications.")
+  aboutImageUrl    String?
+  updatedAt        DateTime @updatedAt
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  url       String
+  publicId  String
+  name      String
+  folder    String   @default("general")
+  createdAt DateTime @default(now())
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String?
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Settings {
+  id           String  @id @default("settings")
+  address      String  @default("19, Mojidi Street, Off Toyin Street, Ikeja, Lagos, Nigeria")
+  phone        String  @default("08023508817, 08031335765, 08038672377")
+  email        String  @default("info@koebltd.com")
+  whatsapp     String? @default("2348023508817")
+  mapsUrl      String? @default("https://www.google.com/maps?q=19+Mojidi+Street,+Off+Toyin+Street,+Ikeja,+Lagos,+Nigeria&output=embed")
+  businessHours String @default("Mon - Fri: 8:00 AM - 6:00 PM")
+  facebookUrl  String?
+  instagramUrl String?
+  linkedinUrl  String?
+  twitterUrl   String?
+}
