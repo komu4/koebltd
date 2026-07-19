@@ -3,11 +3,27 @@ import Image from "next/image";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { ShieldCheck, Target, Eye, Users } from "lucide-react";
+import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = {
   title: "About Us",
   description: "Learn about KOEB's story, mission, vision and commitment to industrial air quality.",
 };
+
+async function getGalleryImages() {
+  try {
+    const homepage = await prisma.homepage.findUnique({ where: { id: "homepage" } });
+    const slots = [
+      homepage?.galleryImage1Url,
+      homepage?.galleryImage2Url,
+      homepage?.galleryImage3Url,
+      homepage?.galleryImage4Url,
+    ];
+    return slots.map((url) => url || "/images/products/product-gallery-1.svg");
+  } catch {
+    return Array(4).fill("/images/products/product-gallery-1.svg");
+  }
+}
 
 const values = [
   { icon: ShieldCheck, title: "Quality First", text: "Every product is tested against strict industrial standards." },
@@ -23,7 +39,9 @@ const timeline = [
   { year: "2024", text: "Serving industrial, commercial and automotive clients across West Africa." },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const galleryImages = await getGalleryImages();
+
   return (
     <>
       <section className="bg-brand-dark py-16 text-center text-white">
@@ -105,10 +123,10 @@ export default function AboutPage() {
       <section className="py-section-mobile md:py-section-tablet lg:py-section-desktop">
         <Container>
           <SectionHeading title="Gallery" />
-          <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
-            {[1, 2, 3, 4].map((n) => (
-              <div key={n} className="relative h-40 overflow-hidden rounded-button bg-brand-light">
-                <Image src="/images/products/product-gallery-1.svg" alt="KOEB facility" fill className="object-cover" />
+          <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {galleryImages.map((url, i) => (
+              <div key={i} className="relative h-56 overflow-hidden rounded-button bg-brand-light sm:h-72">
+                <Image src={url} alt={`KOEB facility ${i + 1}`} fill className="object-cover" />
               </div>
             ))}
           </div>

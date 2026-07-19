@@ -73,7 +73,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
         <Navbar />
         <main>{children}</main>
-        <Footer />
+        <Footer
+          whatsapp={settings?.whatsapp}
+          facebookUrl={settings?.facebookUrl}
+          instagramUrl={settings?.instagramUrl}
+          linkedinUrl={settings?.linkedinUrl}
+        />
         <SocialFloat
           whatsapp={settings?.whatsapp}
           facebookUrl={settings?.facebookUrl}

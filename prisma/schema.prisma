@@ -93,6 +93,16 @@ model Homepage {
   aboutHeading     String   @default("About Us")
   aboutBody        String   @default("KOEB is a trusted supplier of high quality air filters and air compressors for industrial, commercial and automotive applications.")
   aboutImageUrl    String?
+  // About Us page gallery — 4 independently managed images (each with its
+  // Cloudinary publicId so it can be deleted/replaced from the admin dashboard).
+  galleryImage1Url      String?
+  galleryImage1PublicId String?
+  galleryImage2Url      String?
+  galleryImage2PublicId String?
+  galleryImage3Url      String?
+  galleryImage3PublicId String?
+  galleryImage4Url      String?
+  galleryImage4PublicId String?
   updatedAt        DateTime @updatedAt
 }
 
@@ -121,11 +131,11 @@ model Settings {
   address      String  @default("19, Mojidi Street, Off Toyin Street, Ikeja, Lagos, Nigeria")
   phone        String  @default("08023508817, 08031335765, 08038672377")
   email        String  @default("info@koebltd.com")
-  whatsapp     String? @default("2348023508817")
+  whatsapp     String? @default("2347070070996")
   mapsUrl      String? @default("https://www.google.com/maps?q=19+Mojidi+Street,+Off+Toyin+Street,+Ikeja,+Lagos,+Nigeria&output=embed")
   businessHours String @default("Mon - Fri: 8:00 AM - 6:00 PM")
-  facebookUrl  String?
-  instagramUrl String?
-  linkedinUrl  String?
+  facebookUrl  String? @default("https://www.facebook.com/profile.php?id=61573895350637")
+  instagramUrl String? @default("https://www.instagram.com/koebindustrialsolutionsltd/")
+  linkedinUrl  String? @default("https://www.linkedin.com/company/105698550/admin/edit/?editPageActiveTab=info")
   twitterUrl   String?
 }

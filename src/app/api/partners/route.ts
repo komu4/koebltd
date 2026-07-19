@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { partnerSchema } from "@/lib/validations";
 import { requireAdmin } from "@/lib/require-admin";
@@ -20,6 +21,13 @@ export async function POST(req: NextRequest) {
   const partner = await prisma.partner.create({
     data: { ...parsed.data, logoUrl: body.logoUrl, logoPublicId: body.logoPublicId },
   });
+
+  // Partners are shown on both the Homepage ("/") and the Partners page — both
+  // read from this same table, so both must be revalidated on every change or
+  // one of them will keep serving a stale cached render.
+  revalidatePath("/");
+  revalidatePath("/partners");
+
   return NextResponse.json(partner, { status: 201 });
 }
 
@@ -36,6 +44,10 @@ export async function PUT(req: NextRequest) {
     where: { id },
     data: { ...parsed.data, logoUrl: rest.logoUrl, logoPublicId: rest.logoPublicId },
   });
+
+  revalidatePath("/");
+  revalidatePath("/partners");
+
   return NextResponse.json(partner);
 }
 
@@ -47,5 +59,9 @@ export async function DELETE(req: NextRequest) {
   const partner = await prisma.partner.findUnique({ where: { id } });
   if (partner?.logoPublicId) await deleteImage(partner.logoPublicId).catch(() => {});
   await prisma.partner.delete({ where: { id } });
+
+  revalidatePath("/");
+  revalidatePath("/partners");
+
   return NextResponse.json({ success: true });
 }

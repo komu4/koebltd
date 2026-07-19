@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import InquiryForm from "@/components/products/InquiryForm";
+import ProductImageCarousel from "@/components/products/ProductImageCarousel";
 
 async function getProduct(slug: string) {
   try {
@@ -61,18 +62,7 @@ export default async function ProductDetailPage({
     <Container className="py-section-mobile md:py-section-tablet lg:py-section-desktop">
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
         <div>
-          <div className="relative h-96 w-full overflow-hidden rounded-section bg-brand-light">
-            <Image src={images[0].url} alt={product.name} fill className="object-contain p-6" />
-          </div>
-          {images.length > 1 && (
-            <div className="mt-4 grid grid-cols-4 gap-3">
-              {images.map((img) => (
-                <div key={img.id} className="relative h-20 overflow-hidden rounded-button bg-brand-light">
-                  <Image src={img.url} alt={product.name} fill className="object-contain p-2" />
-                </div>
-              ))}
-            </div>
-          )}
+          <ProductImageCarousel images={images} alt={product.name} />
         </div>
 
         <div>

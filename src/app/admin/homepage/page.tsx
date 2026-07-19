@@ -20,6 +20,7 @@ export default function AdminHomepagePage() {
   });
   const [heroImage, setHeroImage] = useState<UploadedImage[]>([]);
   const [aboutImage, setAboutImage] = useState<UploadedImage[]>([]);
+  const [galleryImages, setGalleryImages] = useState<UploadedImage[][]>([[], [], [], []]);
   const [features, setFeatures] = useState<FeatureCard[]>([]);
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -42,6 +43,12 @@ export default function AdminHomepagePage() {
           });
           if (data.heroImageUrl) setHeroImage([{ url: data.heroImageUrl, publicId: "" }]);
           if (data.aboutImageUrl) setAboutImage([{ url: data.aboutImageUrl, publicId: "" }]);
+          setGalleryImages([
+            data.galleryImage1Url ? [{ url: data.galleryImage1Url, publicId: data.galleryImage1PublicId || "" }] : [],
+            data.galleryImage2Url ? [{ url: data.galleryImage2Url, publicId: data.galleryImage2PublicId || "" }] : [],
+            data.galleryImage3Url ? [{ url: data.galleryImage3Url, publicId: data.galleryImage3PublicId || "" }] : [],
+            data.galleryImage4Url ? [{ url: data.galleryImage4Url, publicId: data.galleryImage4PublicId || "" }] : [],
+          ]);
           setFeatures(data.featureCards || []);
         }
         setLoading(false);
@@ -57,6 +64,14 @@ export default function AdminHomepagePage() {
         ...form,
         heroImageUrl: heroImage[0]?.url,
         aboutImageUrl: aboutImage[0]?.url,
+        galleryImage1Url: galleryImages[0][0]?.url ?? null,
+        galleryImage1PublicId: galleryImages[0][0]?.publicId ?? null,
+        galleryImage2Url: galleryImages[1][0]?.url ?? null,
+        galleryImage2PublicId: galleryImages[1][0]?.publicId ?? null,
+        galleryImage3Url: galleryImages[2][0]?.url ?? null,
+        galleryImage3PublicId: galleryImages[2][0]?.publicId ?? null,
+        galleryImage4Url: galleryImages[3][0]?.url ?? null,
+        galleryImage4PublicId: galleryImages[3][0]?.publicId ?? null,
         featureCards: features,
       }),
     });
@@ -172,6 +187,32 @@ export default function AdminHomepagePage() {
             />
             <p className="text-sm font-semibold pt-2">About image</p>
             <ImageUploader value={aboutImage} onChange={setAboutImage} folder="homepage" />
+          </div>
+        </section>
+
+        <section className="rounded-card bg-white p-6 shadow-sm">
+          <h2 className="font-heading font-semibold">About Us Gallery</h2>
+          <p className="mt-1 text-xs text-brand-text/50">
+            Four images shown in the About Us page gallery. Upload, preview and replace or delete
+            each one independently.
+          </p>
+          <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2">
+            {galleryImages.map((img, i) => (
+              <div key={i}>
+                <p className="text-sm font-semibold">Gallery image {i + 1}</p>
+                <div className="mt-2">
+                  <ImageUploader
+                    value={img}
+                    onChange={(next) => {
+                      const updated = [...galleryImages];
+                      updated[i] = next;
+                      setGalleryImages(updated);
+                    }}
+                    folder="about-gallery"
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 

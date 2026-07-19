@@ -19,10 +19,13 @@ export async function PUT(req: NextRequest) {
     create: { id: "homepage", ...body },
   });
 
-  // The homepage ("/") is rendered from this data at request/build time and
-  // can be cached by Next.js. Without this, a saved hero image (or any other
-  // homepage edit) would not appear on the live site until a full redeploy.
+  // The homepage ("/") and About Us page ("/about", which renders the
+  // gallery images stored here) are rendered from this data at request/build
+  // time and can be cached by Next.js. Without this, a saved image (or any
+  // other homepage/gallery edit) would not appear on the live site until a
+  // full redeploy.
   revalidatePath("/");
+  revalidatePath("/about");
 
   return NextResponse.json(homepage);
 }

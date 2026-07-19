@@ -8,6 +8,33 @@ Industrial Accessories), rebuilt from the supplied homepage design with a full a
 Next.js 16 (App Router) · TypeScript · Tailwind CSS · Framer Motion · Prisma · PostgreSQL ·
 NextAuth (Credentials) · Cloudinary · React Hook Form + Zod
 
+## Applying the latest migration (About Us gallery columns)
+
+This update adds new `galleryImage1Url` … `galleryImage4Url`/`PublicId` columns to the
+`Homepage` table (fixes `Prisma error P2022: column Homepage.galleryImage1Url does not exist`)
+and corrects the `Settings` row's WhatsApp/social links to the official accounts.
+
+**If your database already has data in it** (the common case — you already ran `migrate dev
+--name init` before and seeded it), adopt the new migration folder without re-running the
+baseline SQL, since your tables already exist:
+
+```bash
+npx prisma migrate resolve --applied 20260101000000_init
+npx prisma migrate deploy
+```
+
+The first command just marks the old baseline as already-applied in Prisma's migration history
+table (it does not touch your data). The second command then actually runs the new migration
+that adds the gallery columns and fixes the Settings row.
+
+**If you're setting up a brand new, empty database**, just run:
+
+```bash
+npx prisma migrate deploy
+```
+
+and both migrations (the full baseline + the gallery columns) will run in order.
+
 ## 1. Install dependencies
 
 ```bash

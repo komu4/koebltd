@@ -22,7 +22,12 @@ await prisma.user.upsert({
 
   await prisma.settings.upsert({
     where: { id: "settings" },
-    update: {},
+    update: {
+      whatsapp: "2347070070996",
+      facebookUrl: "https://www.facebook.com/profile.php?id=61573895350637",
+      instagramUrl: "https://www.instagram.com/koebindustrialsolutionsltd/",
+      linkedinUrl: "https://www.linkedin.com/company/105698550/admin/edit/?editPageActiveTab=info",
+    },
     create: { id: "settings" },
   });
 

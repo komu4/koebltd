@@ -36,8 +36,10 @@ export default function Navbar() {
   return (
     <header
       className={clsx(
-        "sticky top-0 z-50 w-full bg-white transition-shadow duration-300",
-        scrolled ? "shadow-md" : "shadow-none"
+        "sticky top-0 z-50 w-full transition-all duration-300",
+        scrolled
+          ? "bg-white/10 shadow-lg absolute inset-0 backdrop-blur-sm border border-white/20 bg-gradient-to-r"
+          : "bg-white shadow-none"
       )}
     >
       <Container className="flex h-20 items-center justify-between">
@@ -59,14 +61,17 @@ export default function Navbar() {
                 key={item.href}
                 href={item.href}
                 className={clsx(
-                  "relative font-heading text-[15px] font-semibold pb-1 transition-colors",
+                  "group relative font-heading text-[15px] font-semibold pb-1 transition-colors duration-200",
                   active ? "text-brand-red" : "text-brand-text hover:text-brand-red"
                 )}
               >
                 {item.label}
-                {active && (
-                  <span className="absolute -bottom-0.5 left-0 h-[2px] w-full bg-brand-red" />
-                )}
+                <span
+                  className={clsx(
+                    "absolute -bottom-0.5 left-0 h-[2px] bg-brand-red transition-all duration-300 ease-out",
+                    active ? "w-full" : "w-0 group-hover:w-full"
+                  )}
+                />
               </Link>
             );
           })}
@@ -81,12 +86,12 @@ export default function Navbar() {
         </button>
       </Container>
 
-      <div
-        className={clsx(
-          "md:hidden overflow-hidden bg-white transition-[max-height] duration-300 ease-in-out",
-          open ? "max-h-96 border-t border-brand-border" : "max-h-0"
-        )}
-      >
+<div
+  className={clsx(
+    "md:hidden overflow-hidden transition-[max-height] duration-300 ease-in-out backdrop-blur-sm bg-white/10 shadow-2xl",
+    open ? "max-h-96" : "max-h-0"
+  )}
+>
         <nav className="flex flex-col px-5 py-4">
           {navItems.map((item) => (
             <Link

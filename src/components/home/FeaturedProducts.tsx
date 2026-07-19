@@ -3,6 +3,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
+import Button from "@/components/ui/Button";
 
 // Same query shape as the Products page / Products API route:
 // same include (first image + category), same orderBy, just capped to 18
@@ -47,6 +48,11 @@ export default async function FeaturedProducts() {
               <h3 className="mt-4 text-center font-heading text-lg font-bold">{p.name}</h3>
             </Link>
           ))}
+        </div>
+        <div className="mt-12 flex justify-center">
+          <Button href="/products" variant="primary">
+            View All Products
+          </Button>
         </div>
       </Container>
     </section>
