@@ -7,10 +7,10 @@ import FeaturedProducts from "@/components/home/FeaturedProducts";
 import Partners from "@/components/home/Partners";
 
 const defaultFeatures: FeatureCard[] = [
-  { icon: "shield", title: "High Quality", description: "Premium materials and strict quality control." },
-  { icon: "gauge", title: "Reliable Performance", description: "Engineered for maximum efficiency and durability." },
-  { icon: "headset", title: "Expert Support", description: "Professional support and after-sales service." },
-  { icon: "award", title: "Trusted Solutions", description: "Trusted by industries worldwide." },
+  { icon: "gauge", title: "Quick Response", description: "Fast support when your equipment needs attention" },
+  { icon: "award", title: "Professionalism", description: "Expert service you can trust every time." },
+  { icon: "package", title: "Supply", description: "Quality spare parts for lasting performance" },
+  { icon: "shield", title: "Trusted Solutions", description: "Reliable service wherever your business operates." },
 ];
 
 async function getHomepageData() {
@@ -43,8 +43,8 @@ export default async function HomePage() {
   return (
     <>
       <Hero
-        titleLine1={homepage?.heroTitleLine1 || "Pure Air."}
-        titleLine2={homepage?.heroTitleLine2 || "Powerful Performance."}
+        titleLine1={homepage?.heroTitleLine1 || "Equipment."}
+        titleLine2={homepage?.heroTitleLine2 || "spare parts. services"}
         subtitle={
           homepage?.heroSubtitle ||
           "High quality air filters and air compressors built for reliability and efficiency."
@@ -60,7 +60,7 @@ export default async function HomePage() {
         heading={homepage?.aboutHeading || "About Us"}
         body={
           homepage?.aboutBody ||
-          "KOEB is a trusted supplier of high quality air filters and air compressors for industrial, commercial and automotive applications. We are committed to delivering products that ensure clean air, optimal performance and long lasting reliability.\nOur mission is to power your productivity with innovative solutions and unmatched service."
+          "KOEB Industrial Solutions Ltd is a trusted provider of industrial air solutions, specializing in air compressor servicing, air dryer maintenance, spare parts supply, air audits, air-end overhauls, and variable speed drive (VSD) solutions. Founded by seasoned professionals with over two decades of combined experience in the air compressor and industrial machinery industry, KOEB has built a reputation for delivering reliable, efficient, and cost-effective solutions to businesses across Nigeria At KOEB, we understand the critical role compressed air systems play in industrial operations. Our team of highly skilled engineers and technicians is committed to ensuring optimal equipment performance, minimizing downtime, and maximizing productivity through prompt response, technical expertise, and professional service delivery. We pride ourselves on providing genuine spare parts, comprehensive maintenance support, and customized service level agreements tailored to the unique needs of our clients. Our core values of trust, loyalty, and long-term partnership guide every project we undertake and every relationship we build. With a nationwide reach and a customer-focused approach, KOEB Industrial Solutions Ltd remains dedicated to helping industries achieve operational excellence through dependable compressed air solutions. KOEB Industrial Solutions Ltd – Your Trusted Partner for Reliable Industrial Air Solutions. "
         }
         imageUrl={homepage?.aboutImageUrl}
       />

@@ -12,7 +12,6 @@ import {
   Wrench,
   Handshake,
   Home,
-  Mail,
   LogOut,
 } from "lucide-react";
 
@@ -23,7 +22,6 @@ const links = [
   { href: "/admin/services", label: "Services", icon: Wrench },
   { href: "/admin/partners", label: "Partners", icon: Handshake },
   { href: "/admin/homepage", label: "Homepage", icon: Home },
-  { href: "/admin/messages", label: "Messages", icon: Mail },
 ];
 
 type AdminSidebarProps = {

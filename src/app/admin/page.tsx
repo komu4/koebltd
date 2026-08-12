@@ -1,18 +1,18 @@
 import Link from "next/link";
-import { Package, FolderTree, Mail, Handshake } from "lucide-react";
+import { Package, FolderTree, Handshake, Wrench } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 
 async function getCounts() {
   try {
-    const [products, categories, messages, partners] = await Promise.all([
+    const [products, categories, services, partners] = await Promise.all([
       prisma.product.count(),
       prisma.category.count(),
-      prisma.contactMessage.count({ where: { read: false } }),
+      prisma.service.count(),
       prisma.partner.count(),
     ]);
-    return { products, categories, messages, partners };
+    return { products, categories, services, partners };
   } catch {
-    return { products: 0, categories: 0, messages: 0, partners: 0 };
+    return { products: 0, categories: 0, services: 0, partners: 0 };
   }
 }
 
@@ -22,7 +22,7 @@ export default async function AdminDashboard() {
   const cards = [
     { label: "Products", value: counts.products, icon: Package, href: "/admin/products" },
     { label: "Categories", value: counts.categories, icon: FolderTree, href: "/admin/categories" },
-    { label: "Unread Messages", value: counts.messages, icon: Mail, href: "/admin/messages" },
+    { label: "Services", value: counts.services, icon: Wrench, href: "/admin/services" },
     { label: "Partners", value: counts.partners, icon: Handshake, href: "/admin/partners" },
   ];
 
@@ -48,9 +48,9 @@ export default async function AdminDashboard() {
       <div className="mt-10 rounded-card bg-white p-6 shadow-sm">
         <h2 className="font-heading font-semibold">Getting started</h2>
         <ol className="mt-3 list-decimal space-y-1 pl-5 text-sm text-brand-text/70">
-          <li>login</li>
-          <li>insert images and description</li>
-          
+          <li>Login to the admin panel</li>
+          <li>Insert images and descriptions for your products and services</li>
+          <li>Contact inquiries are sent directly to <strong>info@koebltd.com</strong></li>
         </ol>
       </div>
     </div>

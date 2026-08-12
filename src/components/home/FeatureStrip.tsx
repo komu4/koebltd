@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, Gauge, Headset, Award, LucideIcon } from "lucide-react";
+import { Shield, Gauge, Headset, Award, Package, Wrench, LucideIcon } from "lucide-react";
 import Container from "@/components/ui/Container";
 
 const iconMap: Record<string, LucideIcon> = {
@@ -9,6 +9,8 @@ const iconMap: Record<string, LucideIcon> = {
   gauge: Gauge,
   headset: Headset,
   award: Award,
+  package: Package,
+  wrench: Wrench,
 };
 
 export type FeatureCard = { icon: string; title: string; description: string };
