@@ -37,7 +37,6 @@ export default function InquiryForm({ productName }: { productName: string }) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
-      <input type="text" {...register("website")} tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
       <div>
         <input
           {...register("name")}

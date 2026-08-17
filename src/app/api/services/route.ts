@@ -4,31 +4,40 @@ import { serviceSchema } from "@/lib/validations";
 import { requireAdmin } from "@/lib/require-admin";
 
 export async function GET() {
-  const { response } = await requireAdmin(); if (response) return response;
-  const services = await prisma.service.findMany({ orderBy: { order: "asc" }, select: { id: true, title: true, slug: true, description: true, icon: true, order: true } });
-  return NextResponse.json(services, { headers: { "Cache-Control": "private, no-store" } });
+  const services = await prisma.service.findMany({ orderBy: { order: "asc" } });
+  return NextResponse.json(services);
 }
 
 export async function POST(req: NextRequest) {
-  const { response } = await requireAdmin(); if (response) return response;
-  const parsed = serviceSchema.safeParse(await req.json().catch(() => null));
-  if (!parsed.success) return NextResponse.json({ error: "Invalid service data" }, { status: 400 });
-  return NextResponse.json(await prisma.service.create({ data: parsed.data }), { status: 201 });
+  const { response } = await requireAdmin();
+  if (response) return response;
+
+  const body = await req.json();
+  const parsed = serviceSchema.safeParse(body);
+  if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
+
+  const service = await prisma.service.create({ data: parsed.data });
+  return NextResponse.json(service, { status: 201 });
 }
 
 export async function PUT(req: NextRequest) {
-  const { response } = await requireAdmin(); if (response) return response;
-  const body = await req.json().catch(() => null);
-  if (typeof body?.id !== "string") return NextResponse.json({ error: "Invalid service id" }, { status: 400 });
-  const parsed = serviceSchema.partial().safeParse(body);
-  if (!parsed.success) return NextResponse.json({ error: "Invalid service data" }, { status: 400 });
-  return NextResponse.json(await prisma.service.update({ where: { id: body.id }, data: parsed.data }));
+  const { response } = await requireAdmin();
+  if (response) return response;
+
+  const body = await req.json();
+  const { id, ...rest } = body;
+  const parsed = serviceSchema.partial().safeParse(rest);
+  if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
+
+  const service = await prisma.service.update({ where: { id }, data: parsed.data });
+  return NextResponse.json(service);
 }
 
 export async function DELETE(req: NextRequest) {
-  const { response } = await requireAdmin(); if (response) return response;
-  const body = await req.json().catch(() => null);
-  if (typeof body?.id !== "string") return NextResponse.json({ error: "Invalid service id" }, { status: 400 });
-  await prisma.service.delete({ where: { id: body.id } });
+  const { response } = await requireAdmin();
+  if (response) return response;
+
+  const { id } = await req.json();
+  await prisma.service.delete({ where: { id } });
   return NextResponse.json({ success: true });
 }

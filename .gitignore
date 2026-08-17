@@ -1,9 +1,10 @@
+# Dependencies
 node_modules/
+
+# Next.js
 .next/
-.env
-.env.*
-!.env.example
-*.pem
-*.key
-.DS_Store
-npm-debug.log*
+
+# Environment files
+.env.local
+.env.development
+.env.production

@@ -13,7 +13,7 @@ const securityHeaders = [
     value: [
       "default-src 'self'",
       // Scripts: self + Next.js inline runtime (nonce not used here, so unsafe-inline needed for Next.js hydration)
-      `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}`,
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
       // Styles: self + inline (Tailwind injects inline styles)
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       // Fonts
@@ -30,7 +30,6 @@ const securityHeaders = [
       "base-uri 'self'",
       // Form submissions must go to same origin
       "form-action 'self'",
-      "frame-ancestors 'self'",
       // Upgrade insecure requests in production
       "upgrade-insecure-requests",
     ]
@@ -76,15 +75,6 @@ const securityHeaders = [
   {
     key: "Strict-Transport-Security",
     value: "max-age=31536000; includeSubDomains; preload",
-  },
-
-  {
-    key: "X-Permitted-Cross-Domain-Policies",
-    value: "none",
-  },
-  {
-    key: "Origin-Agent-Cluster",
-    value: "?1",
   },
 ];
 

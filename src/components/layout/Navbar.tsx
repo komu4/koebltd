@@ -47,10 +47,10 @@ export default function Navbar() {
   return (
     <header
       className={clsx(
-        "sticky top-0 z-50 w-full transition-all duration-300",
+        "sticky top-0 z-50 w-full transition-[background-color,box-shadow,border-color,backdrop-filter,transform] duration-500 ease-out",
         scrolled
-          ? "bg-white/10 shadow-lg absolute inset-0 backdrop-blur-sm border border-white/20 bg-gradient-to-r"
-          : "bg-white shadow-none"
+          ? "border-b border-white/20 bg-white/75 shadow-[0_8px_30px_rgba(0,0,0,0.08)] backdrop-blur-xl"
+          : "border-b border-transparent bg-white shadow-none"
       )}
     >
       <Container className="flex h-20 items-center justify-between">
