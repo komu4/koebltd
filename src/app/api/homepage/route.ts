@@ -1,13 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { homepageSchema } from "@/lib/validations";
 import { requireAdmin } from "@/lib/require-admin";
 
 export async function GET() {
-  const homepage = await prisma.homepage.findUnique({ where: { id: "homepage" } });
+  const homepage = await prisma.homepage.findUnique({
+    where: { id: "homepage" },
+  });
+
   if (!homepage) return NextResponse.json(null);
-  return NextResponse.json(homepage, { headers: { "Cache-Control": "private, no-store" } });
+
+  return NextResponse.json(homepage, {
+    headers: { "Cache-Control": "private, no-store" },
+  });
 }
 
 export async function PUT(req: NextRequest) {
@@ -16,15 +23,34 @@ export async function PUT(req: NextRequest) {
 
   const body = await req.json();
   const parsed = homepageSchema.safeParse(body);
-  if (!parsed.success) return NextResponse.json({ error: "Invalid homepage data" }, { status: 400 });
+
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "Invalid homepage data" },
+      { status: 400 }
+    );
+  }
+
+  const data = {
+    ...parsed.data,
+    ...(parsed.data.heroImageUrls !== undefined
+      ? {
+          heroImageUrls:
+            parsed.data.heroImageUrls === null
+              ? Prisma.JsonNull
+              : parsed.data.heroImageUrls,
+        }
+      : {}),
+  };
 
   const homepage = await prisma.homepage.upsert({
     where: { id: "homepage" },
-    update: parsed.data,
-    create: { id: "homepage", ...parsed.data },
+    update: data,
+    create: { id: "homepage", ...data },
   });
 
   revalidatePath("/");
   revalidatePath("/about");
+
   return NextResponse.json(homepage);
 }
