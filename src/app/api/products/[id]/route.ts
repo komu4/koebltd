@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { productSchema } from "@/lib/validations";
 import { requireAdmin } from "@/lib/require-admin";
@@ -49,10 +48,6 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     },
     include: { images: true },
   });
-
-  revalidatePath("/");
-  revalidatePath("/products");
-
   return NextResponse.json(product);
 }
 
@@ -66,9 +61,6 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
 
   await Promise.allSettled(product.images.map((img) => deleteImage(img.publicId)));
   await prisma.product.delete({ where: { id } });
-
-  revalidatePath("/");
-  revalidatePath("/products");
 
   return NextResponse.json({ success: true });
 }

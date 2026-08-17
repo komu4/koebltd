@@ -13,40 +13,32 @@ const defaultFeatures: FeatureCard[] = [
   { icon: "shield", title: "Trusted Solutions", description: "Reliable service wherever your business operates." },
 ];
 
-const fallbackPartners = [
-  { id: "atlas-copco", name: "Atlas Copco", logoUrl: "/images/partners/atlas-copco.svg" },
-  { id: "mann-hummel", name: "Mann+Hummel", logoUrl: "/images/partners/mann-hummel.svg" },
-  { id: "donaldson", name: "Donaldson", logoUrl: "/images/partners/donaldson.svg" },
-  { id: "kaeser", name: "Kaeser Compressors", logoUrl: "/images/partners/kaeser.svg" },
-];
-
 async function getHomepageData() {
-  let homepage = null;
-  let partners: { id: string; name: string; logoUrl: string }[] = [];
-
   try {
-    homepage = await prisma.homepage.findUnique({ where: { id: "homepage" } });
+    const [homepage, partners] = await Promise.all([
+      prisma.homepage.findUnique({ where: { id: "homepage" } }),
+      prisma.partner.findMany({ orderBy: { order: "asc" } }),
+    ]);
+    return { homepage, partners };
   } catch {
-    // DB not connected yet — fall back to defaults
+    // DB not connected yet (e.g. running without DATABASE_URL configured) — fall back to defaults
+    return { homepage: null, partners: [] };
   }
-
-  try {
-    const dbPartners = await prisma.partner.findMany({ orderBy: { order: "asc" } });
-    partners = dbPartners.length
-      ? dbPartners.map((p) => ({ id: p.id, name: p.name, logoUrl: p.logoUrl }))
-      : fallbackPartners;
-  } catch {
-    partners = fallbackPartners;
-  }
-
-  return { homepage, partners };
 }
 
 export default async function HomePage() {
   const { homepage, partners } = await getHomepageData();
 
   const features = (homepage?.featureCards as unknown as FeatureCard[]) || defaultFeatures;
-  const partnerList = partners;
+  const partnerList =
+    partners.length > 0
+      ? partners.map((p) => ({ id: p.id, name: p.name, logoUrl: p.logoUrl }))
+      : [
+          { id: "atlas-copco", name: "Atlas Copco", logoUrl: "/images/partners/atlas-copco.svg" },
+          { id: "mann-hummel", name: "Mann+Hummel", logoUrl: "/images/partners/mann-hummel.svg" },
+          { id: "donaldson", name: "Donaldson", logoUrl: "/images/partners/donaldson.svg" },
+          { id: "kaeser", name: "Kaeser Compressors", logoUrl: "/images/partners/kaeser.svg" },
+        ];
 
   return (
     <>
@@ -72,10 +64,7 @@ export default async function HomePage() {
         }
         imageUrl={homepage?.aboutImageUrl}
       />
-      <ProductsShowcase
-        heading={homepage?.ourProductsHeading}
-        cards={(homepage?.ourProductsCards as Parameters<typeof ProductsShowcase>[0]["cards"]) ?? undefined}
-      />
+      <ProductsShowcase />
       <FeaturedProducts />
       <Partners partners={partnerList} />
     </>

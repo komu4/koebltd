@@ -5,12 +5,15 @@ import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Button from "@/components/ui/Button";
 
+// Same query shape as the Products page / Products API route:
+// same include (first image + category), same orderBy, just capped to 18
+// so the homepage always mirrors whatever the Products page shows first.
 async function getFeaturedProducts() {
   try {
     return await prisma.product.findMany({
-      where: { featured: true },
       include: { images: { take: 1, orderBy: { order: "asc" } }, category: true },
       orderBy: { createdAt: "desc" },
+      take: 18,
     });
   } catch {
     return [];
