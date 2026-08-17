@@ -5,6 +5,7 @@ import ImageUploader, { UploadedImage } from "@/components/admin/ImageUploader";
 import Button from "@/components/ui/Button";
 
 type FeatureCard = { icon: string; title: string; description: string };
+type OurProductCard = { title: string; description: string; image: string; href: string; cta: string };
 
 export default function AdminHomepagePage() {
   const [form, setForm] = useState({
@@ -22,6 +23,11 @@ export default function AdminHomepagePage() {
   const [aboutImage, setAboutImage] = useState<UploadedImage[]>([]);
   const [galleryImages, setGalleryImages] = useState<UploadedImage[][]>([[], [], [], []]);
   const [features, setFeatures] = useState<FeatureCard[]>([]);
+  const [ourProductsHeading, setOurProductsHeading] = useState("Our Products");
+  const [ourProductsCards, setOurProductsCards] = useState<OurProductCard[]>([
+    { title: "Air Filters", description: "Engine air filters, industrial air filters, compressor filters and custom filter solutions.", image: "/images/products/air-filters.svg", href: "/products?category=air-filters", cta: "View Air Filters" },
+    { title: "Air Compressors", description: "Piston compressors, screw compressors and accessories for all applications.", image: "/images/products/air-compressors.svg", href: "/products?category=air-compressors", cta: "View Air Compressors" },
+  ]);
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -50,6 +56,8 @@ export default function AdminHomepagePage() {
             data.galleryImage4Url ? [{ url: data.galleryImage4Url, publicId: data.galleryImage4PublicId || "" }] : [],
           ]);
           setFeatures(data.featureCards || []);
+          if (data.ourProductsHeading) setOurProductsHeading(data.ourProductsHeading);
+          if (data.ourProductsCards) setOurProductsCards(data.ourProductsCards as OurProductCard[]);
         }
         setLoading(false);
       });
@@ -73,6 +81,8 @@ export default function AdminHomepagePage() {
         galleryImage4Url: galleryImages[3][0]?.url ?? null,
         galleryImage4PublicId: galleryImages[3][0]?.publicId ?? null,
         featureCards: features,
+        ourProductsHeading,
+        ourProductsCards,
       }),
     });
     setSaved(true);
@@ -163,6 +173,79 @@ export default function AdminHomepagePage() {
                     setFeatures(next);
                   }}
                   className="rounded-button border border-brand-border px-3 py-2 text-sm sm:col-span-2"
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-card bg-white p-6 shadow-sm">
+          <h2 className="font-heading font-semibold">Our Products Section</h2>
+          <p className="mt-1 text-xs text-brand-text/50">
+            The two category cards shown in the "Our Products" section on the homepage.
+          </p>
+          <div className="mt-4 space-y-3">
+            <input
+              placeholder="Section heading"
+              value={ourProductsHeading}
+              onChange={(e) => setOurProductsHeading(e.target.value)}
+              className="w-full rounded-button border border-brand-border px-4 py-3 text-sm"
+            />
+            {ourProductsCards.map((card, i) => (
+              <div key={i} className="rounded-button border border-brand-border p-4 space-y-2">
+                <p className="text-xs font-semibold text-brand-text/60 uppercase">Card {i + 1}</p>
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                  <input
+                    placeholder="Title"
+                    value={card.title}
+                    onChange={(e) => {
+                      const next = [...ourProductsCards];
+                      next[i] = { ...next[i], title: e.target.value };
+                      setOurProductsCards(next);
+                    }}
+                    className="rounded-button border border-brand-border px-3 py-2 text-sm"
+                  />
+                  <input
+                    placeholder="Button label (e.g. View Air Filters)"
+                    value={card.cta}
+                    onChange={(e) => {
+                      const next = [...ourProductsCards];
+                      next[i] = { ...next[i], cta: e.target.value };
+                      setOurProductsCards(next);
+                    }}
+                    className="rounded-button border border-brand-border px-3 py-2 text-sm"
+                  />
+                  <input
+                    placeholder="Button link (e.g. /products?category=air-filters)"
+                    value={card.href}
+                    onChange={(e) => {
+                      const next = [...ourProductsCards];
+                      next[i] = { ...next[i], href: e.target.value };
+                      setOurProductsCards(next);
+                    }}
+                    className="rounded-button border border-brand-border px-3 py-2 text-sm"
+                  />
+                  <input
+                    placeholder="Image path (e.g. /images/products/air-filters.svg)"
+                    value={card.image}
+                    onChange={(e) => {
+                      const next = [...ourProductsCards];
+                      next[i] = { ...next[i], image: e.target.value };
+                      setOurProductsCards(next);
+                    }}
+                    className="rounded-button border border-brand-border px-3 py-2 text-sm"
+                  />
+                </div>
+                <textarea
+                  rows={2}
+                  placeholder="Description"
+                  value={card.description}
+                  onChange={(e) => {
+                    const next = [...ourProductsCards];
+                    next[i] = { ...next[i], description: e.target.value };
+                    setOurProductsCards(next);
+                  }}
+                  className="w-full rounded-button border border-brand-border px-3 py-2 text-sm"
                 />
               </div>
             ))}

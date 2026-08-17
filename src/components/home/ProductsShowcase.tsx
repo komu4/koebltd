@@ -6,7 +6,15 @@ import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Button from "@/components/ui/Button";
 
-const cards = [
+type ProductCard = {
+  title: string;
+  description: string;
+  image: string;
+  href: string;
+  cta: string;
+};
+
+const DEFAULT_CARDS: ProductCard[] = [
   {
     title: "Air Filters",
     image: "/images/products/air-filters.svg",
@@ -23,13 +31,21 @@ const cards = [
   },
 ];
 
-export default function ProductsShowcase() {
+type Props = {
+  heading?: string;
+  cards?: ProductCard[];
+};
+
+export default function ProductsShowcase({ heading, cards }: Props) {
+  const title = heading || "Our Products";
+  const displayCards = cards && cards.length > 0 ? cards : DEFAULT_CARDS;
+
   return (
     <section className="bg-white py-section-mobile md:py-section-tablet lg:py-section-desktop">
       <Container>
-        <SectionHeading title="Our Products" />
+        <SectionHeading title={title} />
         <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
-          {cards.map((card, i) => (
+          {displayCards.map((card, i) => (
             <motion.div
               key={card.title}
               initial={{ opacity: 0, y: 24 }}

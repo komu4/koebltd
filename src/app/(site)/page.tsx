@@ -64,7 +64,10 @@ export default async function HomePage() {
         }
         imageUrl={homepage?.aboutImageUrl}
       />
-      <ProductsShowcase />
+      <ProductsShowcase
+        heading={homepage?.ourProductsHeading}
+        cards={(homepage?.ourProductsCards as Parameters<typeof ProductsShowcase>[0]["cards"]) ?? undefined}
+      />
       <FeaturedProducts />
       <Partners partners={partnerList} />
     </>

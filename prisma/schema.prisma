@@ -103,6 +103,9 @@ model Homepage {
   galleryImage3PublicId String?
   galleryImage4Url      String?
   galleryImage4PublicId String?
+  // "Our Products" section — two category cards shown on the homepage
+  ourProductsHeading String  @default("Our Products")
+  ourProductsCards   Json?   // array of {title, description, image, href, cta}
   updatedAt        DateTime @updatedAt
 }
 
