@@ -4,9 +4,10 @@ import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 async function main() {
-  const adminEmail = process.env.ADMIN_EMAIL || "admin@koeb.com";
-  const adminPassword = process.env.ADMIN_PASSWORD || "koeb-admin";
-  const hashed = await bcrypt.hash(adminPassword, 10);
+  const adminEmail = process.env.ADMIN_EMAIL;
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  if (!adminEmail || !adminPassword) throw new Error("ADMIN_EMAIL and ADMIN_PASSWORD must be set before running the seed");
+  const hashed = await bcrypt.hash(adminPassword, 12);
 
 await prisma.user.upsert({
   where: { email: adminEmail },

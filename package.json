@@ -10,7 +10,9 @@
     "postinstall": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "security:scan": "npm audit --audit-level=high",
+    "security:secrets": "node scripts/security-scan.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -22,8 +24,8 @@
     "lucide-react": "^0.446.0",
     "next": "^16.0.0",
     "next-auth": "^4.24.8",
-    "nodemailer": "^6.9.15",
     "next-cloudinary": "^6.13.0",
+    "nodemailer": "^7.0.7",
     "prisma": "^6.16.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -35,8 +37,8 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
-    "@types/nodemailer": "^6.4.16",
     "@types/node": "^22.7.0",
+    "@types/nodemailer": "^6.4.16",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "autoprefixer": "^10.4.20",

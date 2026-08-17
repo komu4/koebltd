@@ -41,6 +41,7 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <input type="text" {...register("website")} tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <input
