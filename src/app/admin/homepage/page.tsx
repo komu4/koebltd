@@ -37,15 +37,15 @@ export default function AdminHomepagePage() {
       .then((data) => {
         if (data) {
           setForm({
-            heroTitleLine1: data.heroTitleLine1,
-            heroTitleLine2: data.heroTitleLine2,
-            heroSubtitle: data.heroSubtitle,
-            heroPrimaryLabel: data.heroPrimaryLabel,
-            heroPrimaryHref: data.heroPrimaryHref,
-            heroSecondaryLabel: data.heroSecondaryLabel,
-            heroSecondaryHref: data.heroSecondaryHref,
-            aboutHeading: data.aboutHeading,
-            aboutBody: data.aboutBody,
+            heroTitleLine1: data.heroTitleLine1 ?? "",
+            heroTitleLine2: data.heroTitleLine2 ?? "",
+            heroSubtitle: data.heroSubtitle ?? "",
+            heroPrimaryLabel: data.heroPrimaryLabel ?? "",
+            heroPrimaryHref: data.heroPrimaryHref ?? "",
+            heroSecondaryLabel: data.heroSecondaryLabel ?? "",
+            heroSecondaryHref: data.heroSecondaryHref ?? "",
+            aboutHeading: data.aboutHeading ?? "",
+            aboutBody: data.aboutBody ?? "",
           });
           if (data.heroImageUrl) setHeroImage([{ url: data.heroImageUrl, publicId: "" }]);
           if (data.aboutImageUrl) setAboutImage([{ url: data.aboutImageUrl, publicId: "" }]);

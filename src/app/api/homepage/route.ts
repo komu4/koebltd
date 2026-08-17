@@ -4,8 +4,12 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/require-admin";
 
 export async function GET() {
-  const homepage = await prisma.homepage.findUnique({ where: { id: "homepage" } });
-  return NextResponse.json(homepage);
+  try {
+    const homepage = await prisma.homepage.findUnique({ where: { id: "homepage" } });
+    return NextResponse.json(homepage ?? null);
+  } catch {
+    return NextResponse.json(null);
+  }
 }
 
 export async function PUT(req: NextRequest) {

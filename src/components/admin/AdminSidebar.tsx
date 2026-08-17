@@ -12,6 +12,7 @@ import {
   Wrench,
   Handshake,
   Home,
+  MessageSquare,
   LogOut,
 } from "lucide-react";
 
@@ -21,6 +22,7 @@ const links = [
   { href: "/admin/categories", label: "Categories", icon: FolderTree },
   { href: "/admin/services", label: "Services", icon: Wrench },
   { href: "/admin/partners", label: "Partners", icon: Handshake },
+  { href: "/admin/messages", label: "Messages", icon: MessageSquare },
   { href: "/admin/homepage", label: "Homepage", icon: Home },
 ];
 
