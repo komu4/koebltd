@@ -27,7 +27,7 @@ export default function FeatureStrip({ features }: { features: FeatureCard[] }) 
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
+              transition={{ duration: 0.65, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
               className="flex items-start gap-4"
             >
               <Icon className="mt-1 shrink-0 text-white" size={30} strokeWidth={1.75} />

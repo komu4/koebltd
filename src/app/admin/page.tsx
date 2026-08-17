@@ -21,7 +21,7 @@ export default async function AdminDashboard() {
 
   const cards = [
     { label: "Products", value: counts.products, icon: Package, href: "/admin/products" },
-    { label: "Categories", value: counts.categories, icon: FolderTree, href: "/admin/categories" },
+    { label: "Our Products", value: counts.categories, icon: FolderTree, href: "/admin/categories" },
     { label: "Services", value: counts.services, icon: Wrench, href: "/admin/services" },
     { label: "Partners", value: counts.partners, icon: Handshake, href: "/admin/partners" },
   ];

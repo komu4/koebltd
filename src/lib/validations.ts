@@ -21,6 +21,9 @@ export const categorySchema = z.object({
   name: z.string().min(2),
   slug: z.string().min(2).regex(/^[a-z0-9-]+$/),
   order: z.number().optional(),
+  imageUrl: z.string().optional().nullable(),
+  imagePublicId: z.string().optional().nullable(),
+  showOnHomepage: z.boolean().optional(),
 });
 
 export const serviceSchema = z.object({

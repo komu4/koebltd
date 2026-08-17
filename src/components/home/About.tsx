@@ -25,7 +25,7 @@ export default function About({
             initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="space-y-4 text-brand-text/90"
           >
             {paragraphs.map((p, i) => (
@@ -37,7 +37,7 @@ export default function About({
             initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="relative h-72 overflow-hidden rounded-section sm:h-96"
           >
             <Image

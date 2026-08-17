@@ -6,46 +6,39 @@ import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Button from "@/components/ui/Button";
 
-const cards = [
-  {
-    title: "Air Filters",
-    image: "/images/products/air-filters.svg",
-    description: "Engine air filters, industrial air filters, compressor filters and custom filter solutions.",
-    href: "/products?category=air-filters",
-    cta: "View Air Filters",
-  },
-  {
-    title: "Air Compressors",
-    image: "/images/products/air-compressors.svg",
-    description: "Piston compressors, screw compressors and accessories for all applications.",
-    href: "/products?category=air-compressors",
-    cta: "View Air Compressors",
-  },
-];
+type CategoryCard = {
+  id: string;
+  name: string;
+  slug: string;
+  imageUrl?: string | null;
+};
 
-export default function ProductsShowcase() {
+export default function ProductsShowcase({ categories }: { categories: CategoryCard[] }) {
   return (
     <section className="bg-white py-section-mobile md:py-section-tablet lg:py-section-desktop">
       <Container>
         <SectionHeading title="Our Products" />
-        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
-          {cards.map((card, i) => (
+        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {categories.map((category, i) => (
             <motion.div
-              key={card.title}
+              key={category.id}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="group rounded-card border border-brand-border bg-brand-light p-8 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+              transition={{ duration: 0.65, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
+              className="group rounded-card border border-brand-border bg-brand-light p-8 text-center transition-[transform,box-shadow,border-color] duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_18px_45px_rgba(0,0,0,0.10)] hover:border-white"
             >
-              <h3 className="font-heading text-xl font-bold text-brand-red">{card.title}</h3>
+              <h3 className="font-heading text-xl font-bold text-brand-red">{category.name}</h3>
               <span className="mx-auto mt-2 block h-[2px] w-12 bg-brand-red" />
               <div className="relative mx-auto mt-6 h-48">
-                <Image src={card.image} alt={card.title} fill className="object-contain" />
+                {category.imageUrl ? (
+                  <Image src={category.imageUrl} alt={category.name} fill className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.035]" />
+                ) : (
+                  <div className="flex h-full items-center justify-center text-sm text-brand-text/40">No image</div>
+                )}
               </div>
-              <p className="mx-auto mt-6 max-w-sm text-sm text-brand-text/80">{card.description}</p>
-              <Button href={card.href} variant="primary" className="mt-6">
-                {card.cta}
+              <Button href={`/products?category=${category.slug}`} variant="primary" className="mt-6">
+                View {category.name}
               </Button>
             </motion.div>
           ))}

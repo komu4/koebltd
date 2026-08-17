@@ -27,7 +27,7 @@ export default function Button({
   disabled,
 }: ButtonProps) {
   const classes = clsx(
-    "inline-flex items-center justify-center rounded-button px-7 py-3.5 font-heading font-semibold text-sm tracking-wide transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:pointer-events-none",
+    "inline-flex items-center justify-center rounded-button px-7 py-3.5 font-heading font-semibold text-sm tracking-wide transition-[transform,background-color,box-shadow,color] duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(0,0,0,0.10)] active:translate-y-0 active:shadow-none disabled:opacity-50 disabled:pointer-events-none",
     variants[variant],
     className
   );

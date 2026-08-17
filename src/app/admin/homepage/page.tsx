@@ -41,7 +41,8 @@ export default function AdminHomepagePage() {
             aboutHeading: data.aboutHeading,
             aboutBody: data.aboutBody,
           });
-          if (data.heroImageUrl) setHeroImage([{ url: data.heroImageUrl, publicId: "" }]);
+          if (Array.isArray(data.heroImageUrls) && data.heroImageUrls.length) setHeroImage(data.heroImageUrls.slice(0, 3).map((url: string) => ({ url, publicId: "" })));
+          else if (data.heroImageUrl) setHeroImage([{ url: data.heroImageUrl, publicId: "" }]);
           if (data.aboutImageUrl) setAboutImage([{ url: data.aboutImageUrl, publicId: "" }]);
           setGalleryImages([
             data.galleryImage1Url ? [{ url: data.galleryImage1Url, publicId: data.galleryImage1PublicId || "" }] : [],
@@ -63,6 +64,7 @@ export default function AdminHomepagePage() {
       body: JSON.stringify({
         ...form,
         heroImageUrl: heroImage[0]?.url,
+        heroImageUrls: heroImage.slice(0, 3).map((img) => img.url),
         aboutImageUrl: aboutImage[0]?.url,
         galleryImage1Url: galleryImages[0][0]?.url ?? null,
         galleryImage1PublicId: galleryImages[0][0]?.publicId ?? null,
@@ -134,8 +136,14 @@ export default function AdminHomepagePage() {
                 className="rounded-button border border-brand-border px-4 py-3 text-sm"
               />
             </div>
-            <p className="text-sm font-semibold pt-2">Hero background image</p>
-            <ImageUploader value={heroImage} onChange={setHeroImage} folder="homepage" />
+            <p className="text-sm font-semibold pt-2">Hero background images</p>
+            <p className="text-xs text-brand-text/50">Upload up to 3 images. They will slide automatically on the homepage.</p>
+            <ImageUploader
+              value={heroImage}
+              onChange={(images) => setHeroImage(images.slice(0, 3))}
+              multiple
+              folder="homepage"
+            />
           </div>
         </section>
 

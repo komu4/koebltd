@@ -19,7 +19,7 @@ export default function Partners({ partners }: { partners: PartnerItem[] }) {
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.06 }}
+              transition={{ duration: 0.55, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
               className="relative h-14 grayscale transition-all hover:grayscale-0"
             >
               <Image src={p.logoUrl} alt={p.name} fill className="object-contain" />

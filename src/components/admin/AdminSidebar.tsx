@@ -19,7 +19,7 @@ import {
 const links = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/products", label: "Products", icon: Package },
-  { href: "/admin/categories", label: "Categories", icon: FolderTree },
+  { href: "/admin/categories", label: "Our Products", icon: FolderTree },
   { href: "/admin/services", label: "Services", icon: Wrench },
   { href: "/admin/partners", label: "Partners", icon: Handshake },
   { href: "/admin/homepage", label: "Homepage", icon: Home },

@@ -15,19 +15,20 @@ const defaultFeatures: FeatureCard[] = [
 
 async function getHomepageData() {
   try {
-    const [homepage, partners] = await Promise.all([
+    const [homepage, partners, categories] = await Promise.all([
       prisma.homepage.findUnique({ where: { id: "homepage" } }),
       prisma.partner.findMany({ orderBy: { order: "asc" } }),
+      prisma.category.findMany({ where: { showOnHomepage: true }, orderBy: { order: "asc" } }),
     ]);
-    return { homepage, partners };
+    return { homepage, partners, categories };
   } catch {
     // DB not connected yet (e.g. running without DATABASE_URL configured) — fall back to defaults
-    return { homepage: null, partners: [] };
+    return { homepage: null, partners: [], categories: [] };
   }
 }
 
 export default async function HomePage() {
-  const { homepage, partners } = await getHomepageData();
+  const { homepage, partners, categories } = await getHomepageData();
 
   const features = (homepage?.featureCards as unknown as FeatureCard[]) || defaultFeatures;
   const partnerList =
@@ -54,6 +55,7 @@ export default async function HomePage() {
         secondaryLabel={homepage?.heroSecondaryLabel || "Our Services"}
         secondaryHref={homepage?.heroSecondaryHref || "/services"}
         backgroundImageUrl={homepage?.heroImageUrl}
+        backgroundImageUrls={Array.isArray(homepage?.heroImageUrls) ? (homepage?.heroImageUrls as string[]) : undefined}
       />
       <FeatureStrip features={features} />
       <About
@@ -64,7 +66,7 @@ export default async function HomePage() {
         }
         imageUrl={homepage?.aboutImageUrl}
       />
-      <ProductsShowcase />
+      <ProductsShowcase categories={categories} />
       <FeaturedProducts />
       <Partners partners={partnerList} />
     </>

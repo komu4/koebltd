@@ -21,6 +21,9 @@ model Category {
   name      String
   slug      String    @unique
   order     Int       @default(0)
+  imageUrl  String?
+  imagePublicId String?
+  showOnHomepage Boolean @default(true)
   products  Product[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -89,6 +92,7 @@ model Homepage {
   heroSecondaryLabel String @default("Our Services")
   heroSecondaryHref String  @default("/services")
   heroImageUrl     String?
+  heroImageUrls    Json?
   featureCards     Json? // array of {icon,title,description}
   aboutHeading     String   @default("About Us")
   aboutBody        String   @default("KOEB is a trusted supplier of high quality air filters and air compressors for industrial, commercial and automotive applications.")

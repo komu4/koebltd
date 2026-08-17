@@ -49,22 +49,22 @@ export default function Footer({
         <div>
           <h3 className="font-heading font-semibold mb-4">Quick Links</h3>
           <ul className="space-y-2 text-sm text-gray-400">
-            <li><Link href="/" className="hover:text-brand-red">Home</Link></li>
-            <li><Link href="/products" className="hover:text-brand-red">Products</Link></li>
-            <li><Link href="/about" className="hover:text-brand-red">About Us</Link></li>
-            <li><Link href="/services" className="hover:text-brand-red">Services</Link></li>
-            <li><Link href="/partners" className="hover:text-brand-red">Partners</Link></li>
-            <li><Link href="/contact" className="hover:text-brand-red">Contact Us</Link></li>
+            <li><Link href="/" className="transition-colors duration-300 hover:text-brand-red">Home</Link></li>
+            <li><Link href="/products" className="transition-colors duration-300 hover:text-brand-red">Products</Link></li>
+            <li><Link href="/about" className="transition-colors duration-300 hover:text-brand-red">About Us</Link></li>
+            <li><Link href="/services" className="transition-colors duration-300 hover:text-brand-red">Services</Link></li>
+            <li><Link href="/partners" className="transition-colors duration-300 hover:text-brand-red">Partners</Link></li>
+            <li><Link href="/contact" className="transition-colors duration-300 hover:text-brand-red">Contact Us</Link></li>
           </ul>
         </div>
 
         <div>
           <h3 className="font-heading font-semibold mb-4">Products</h3>
           <ul className="space-y-2 text-sm text-gray-400">
-            <li><Link href="/products?category=air-filters" className="hover:text-brand-red">Air Filters</Link></li>
-            <li><Link href="/products?category=air-compressors" className="hover:text-brand-red">Air Compressors</Link></li>
-            <li><Link href="/products?category=compressor-parts" className="hover:text-brand-red">Compressor Parts</Link></li>
-            <li><Link href="/products?category=accessories" className="hover:text-brand-red">Accessories</Link></li>
+            <li><Link href="/products?category=air-filters" className="transition-colors duration-300 hover:text-brand-red">Air Filters</Link></li>
+            <li><Link href="/products?category=air-compressors" className="transition-colors duration-300 hover:text-brand-red">Air Compressors</Link></li>
+            <li><Link href="/products?category=compressor-parts" className="transition-colors duration-300 hover:text-brand-red">Compressor Parts</Link></li>
+            <li><Link href="/products?category=accessories" className="transition-colors duration-300 hover:text-brand-red">Accessories</Link></li>
           </ul>
         </div>
 
@@ -92,7 +92,7 @@ export default function Footer({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="flex h-9 w-9 items-center justify-center border border-white/20 rounded-full bg-white/10 backdrop-blur-lg shadow-lg transition-all duration-300 hover:-translate-x-1 hover:bg-brand-red hover:shadow-lg sm:h-11 sm:w-11"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/10 shadow-lg backdrop-blur-lg transition-[transform,background-color,box-shadow] duration-[400ms] hover:-translate-y-1 hover:bg-brand-red hover:shadow-lg sm:h-11 sm:w-11"
               >
                 <Icon size={16} />
               </a>

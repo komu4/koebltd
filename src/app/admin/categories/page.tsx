@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import { Plus, Trash2, Pencil } from "lucide-react";
 import Button from "@/components/ui/Button";
+import ImageUploader, { UploadedImage } from "@/components/admin/ImageUploader";
 
-type Category = { id: string; name: string; slug: string; order: number };
+type Category = { id: string; name: string; slug: string; order: number; imageUrl?: string | null; imagePublicId?: string | null; showOnHomepage: boolean };
 
 export default function AdminCategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -12,6 +13,8 @@ export default function AdminCategoriesPage() {
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const [image, setImage] = useState<UploadedImage[]>([]);
+  const [showOnHomepage, setShowOnHomepage] = useState(true);
 
   const load = () => fetch("/api/categories").then((r) => r.json()).then(setCategories);
 
@@ -23,6 +26,8 @@ export default function AdminCategoriesPage() {
     setEditing(c || null);
     setName(c?.name || "");
     setSlug(c?.slug || "");
+    setImage(c?.imageUrl ? [{ url: c.imageUrl, publicId: c.imagePublicId || "" }] : []);
+    setShowOnHomepage(c?.showOnHomepage ?? true);
     setShowForm(true);
   };
 
@@ -32,14 +37,14 @@ export default function AdminCategoriesPage() {
     await fetch("/api/categories", {
       method,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(editing ? { id: editing.id, name, slug } : { name, slug }),
+      body: JSON.stringify(editing ? { id: editing.id, name, slug, imageUrl: image[0]?.url ?? null, imagePublicId: image[0]?.publicId ?? null, showOnHomepage } : { name, slug, imageUrl: image[0]?.url ?? null, imagePublicId: image[0]?.publicId ?? null, showOnHomepage }),
     });
     setShowForm(false);
     load();
   };
 
   const remove = async (id: string) => {
-    if (!confirm("Delete this category?")) return;
+    if (!confirm("Delete this product category?")) return;
     await fetch("/api/categories", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -51,12 +56,12 @@ export default function AdminCategoriesPage() {
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="font-heading text-2xl font-bold">Categories</h1>
+        <h1 className="font-heading text-2xl font-bold">Our Products</h1>
         <button
           onClick={() => startEdit()}
           className="flex items-center gap-2 rounded-button bg-brand-red px-4 py-2.5 text-sm font-heading font-semibold text-white"
         >
-          <Plus size={16} /> New Category
+          <Plus size={16} /> Add Product Category
         </button>
       </div>
 
@@ -64,7 +69,7 @@ export default function AdminCategoriesPage() {
         <form onSubmit={save} className="mt-6 max-w-md space-y-4 rounded-card bg-white p-6 shadow-sm">
           <input
             required
-            placeholder="Name"
+            placeholder="Category name (e.g. Oil Filters)"
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="w-full rounded-button border border-brand-border px-4 py-3 text-sm"
@@ -76,6 +81,17 @@ export default function AdminCategoriesPage() {
             onChange={(e) => setSlug(e.target.value)}
             className="w-full rounded-button border border-brand-border px-4 py-3 text-sm"
           />
+          <div>
+            <label className="text-sm font-semibold">Category Image</label>
+            <p className="mt-1 text-xs text-brand-text/50">This image is displayed for the category on the homepage.</p>
+            <div className="mt-2">
+              <ImageUploader value={image} onChange={setImage} folder="categories" />
+            </div>
+          </div>
+          <label className="flex items-center gap-2 text-sm">
+            <input type="checkbox" checked={showOnHomepage} onChange={(e) => setShowOnHomepage(e.target.checked)} />
+            Show this category on homepage
+          </label>
           <div className="flex gap-3">
             <Button type="submit">Save</Button>
             <button type="button" onClick={() => setShowForm(false)} className="text-sm text-brand-text/60">
@@ -91,6 +107,7 @@ export default function AdminCategoriesPage() {
             <tr>
               <th className="px-5 py-3">Name</th>
               <th className="px-5 py-3">Slug</th>
+              <th className="px-5 py-3">Homepage</th>
               <th className="px-5 py-3 text-right">Actions</th>
             </tr>
           </thead>
@@ -99,6 +116,7 @@ export default function AdminCategoriesPage() {
               <tr key={c.id} className="border-t border-brand-border">
                 <td className="px-5 py-3 font-medium">{c.name}</td>
                 <td className="px-5 py-3 text-brand-text/60">{c.slug}</td>
+                <td className="px-5 py-3">{c.showOnHomepage ? "Shown" : "Hidden"}</td>
                 <td className="px-5 py-3">
                   <div className="flex justify-end gap-3">
                     <button onClick={() => startEdit(c)} className="text-brand-text/60 hover:text-brand-red">
