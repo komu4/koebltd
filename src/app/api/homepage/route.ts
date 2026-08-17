@@ -31,16 +31,15 @@ export async function PUT(req: NextRequest) {
     );
   }
 
+  const { heroImageUrls, ...rest } = parsed.data;
+
   const data = {
-    ...parsed.data,
-    ...(parsed.data.heroImageUrls !== undefined
-      ? {
-          heroImageUrls:
-            parsed.data.heroImageUrls === null
-              ? Prisma.JsonNull
-              : parsed.data.heroImageUrls,
-        }
-      : {}),
+    ...rest,
+    ...(heroImageUrls === null
+      ? { heroImageUrls: Prisma.JsonNull }
+      : heroImageUrls !== undefined
+        ? { heroImageUrls }
+        : {}),
   };
 
   const homepage = await prisma.homepage.upsert({
