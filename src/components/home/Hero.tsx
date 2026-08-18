@@ -40,8 +40,12 @@ export default function Hero({
   return (
     <section className="relative overflow-hidden bg-brand-dark">
       <HeroBackground images={images} reduceMotion={shouldReduceMotion} />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/20" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_45%,rgba(255,255,255,0.08),transparent_35%)]" />
+      {/* Left-side scrim: covers the text column, fades cleanly to transparent
+          so the right half of the background image shows without any tint. */}
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.88)_0%,rgba(0,0,0,0.75)_30%,rgba(0,0,0,0.30)_52%,transparent_68%)]" />
+
+      {/* Subtle top/bottom vignette so the image edges don't feel clipped */}
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.18)_0%,transparent_18%,transparent_80%,rgba(0,0,0,0.22)_100%)]" />
 
       <Container className="relative grid min-h-[560px] grid-cols-1 items-center gap-10 py-20 md:grid-cols-2 md:py-0">
         <motion.div
@@ -53,7 +57,7 @@ export default function Hero({
             initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.08, ease: heroEase }}
-            className="font-heading text-4xl font-bold leading-tight text-white sm:text-5xl md:text-6xl"
+            className="font-heading text-4xl font-black leading-[1.08] tracking-tight text-white sm:text-5xl md:text-[3.75rem] lg:text-7xl"
           >
             {titleLine1}
             <br />

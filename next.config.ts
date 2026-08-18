@@ -80,6 +80,11 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   images: {
+    // Custom loader: Cloudinary images are transformed on Cloudinary's CDN
+    // directly, so they are never proxied through /_next/image (which was
+    // causing 7–18 s timeouts and 500 errors for product images).
+    loader: "custom",
+    loaderFile: "./src/lib/cloudinary-loader.ts",
     remotePatterns: [
       { protocol: "https", hostname: "res.cloudinary.com" },
       { protocol: "https", hostname: "images.unsplash.com" },

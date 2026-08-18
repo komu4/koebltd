@@ -208,13 +208,14 @@ export default function ProductForm({ initial }: { initial?: Partial<ProductForm
       <div>
         <label className="text-sm font-semibold">Product Images</label>
         <p className="text-xs text-brand-text/50 mb-2">
-          Uploaded here go straight to Cloudinary once your API keys are configured.
+          Up to 4 images. Hover a thumbnail to replace or remove it.
         </p>
         <ImageUploader
           value={form.images}
           onChange={(images) => setForm({ ...form, images })}
           multiple
           folder="products"
+          max={4}
         />
       </div>
 

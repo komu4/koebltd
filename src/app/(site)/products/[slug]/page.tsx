@@ -144,6 +144,7 @@ export default async function ProductDetailPage({
                     src={r.images[0]?.url || "/images/products/product-gallery-1.svg"}
                     alt={r.name}
                     fill
+                    sizes="(max-width: 640px) 100vw, 33vw"
                     className="object-contain p-3"
                   />
                 </div>

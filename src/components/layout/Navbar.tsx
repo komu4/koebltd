@@ -62,6 +62,7 @@ export default function Navbar() {
             src="/images/koeb-logo.png"
             alt="KOEB"
             fill
+            sizes="128px"
             className="object-contain object-left"
             priority
           />

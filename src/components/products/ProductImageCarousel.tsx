@@ -17,11 +17,21 @@ export default function ProductImageCarousel({
   const [index, setIndex] = useState(0);
   const touchStartX = useRef<number | null>(null);
 
-  // Single image: keep the exact same markup/behavior as before, no controls.
+  // Single image: no controls needed, same structure as multi for consistency
   if (images.length <= 1) {
     return (
-      <div className="relative h-96 w-full overflow-hidden rounded-section bg-brand-light">
-        <Image src={images[0].url} alt={alt} fill className="object-contain p-6" />
+      <div className="w-full overflow-hidden rounded-section bg-brand-light">
+        {/* Fixed-aspect main image container — controls size, image adapts inside */}
+        <div className="relative w-full" style={{ paddingBottom: "75%" /* 4:3 ratio */ }}>
+          <Image
+            src={images[0].url}
+            alt={alt}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-contain p-6"
+            priority
+          />
+        </div>
       </div>
     );
   }
@@ -45,8 +55,10 @@ export default function ProductImageCarousel({
 
   return (
     <div>
+      {/* Main image area — padding-bottom trick keeps aspect ratio stable */}
       <div
-        className="group relative h-96 w-full select-none overflow-hidden rounded-section bg-brand-light"
+        className="group relative w-full select-none overflow-hidden rounded-section bg-brand-light"
+        style={{ paddingBottom: "75%" /* 4:3, image fills without layout shift */ }}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
@@ -54,7 +66,7 @@ export default function ProductImageCarousel({
           <div
             key={img.id}
             className={clsx(
-              "absolute inset-0 transition-opacity duration-500 ease-in-out",
+              "absolute inset-0 transition-opacity duration-400 ease-in-out",
               i === index ? "opacity-100" : "pointer-events-none opacity-0"
             )}
           >
@@ -62,12 +74,14 @@ export default function ProductImageCarousel({
               src={img.url}
               alt={`${alt} — image ${i + 1} of ${images.length}`}
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-contain p-6"
               priority={i === 0}
             />
           </div>
         ))}
 
+        {/* Prev / Next arrows */}
         <button
           type="button"
           onClick={prev}
@@ -85,6 +99,7 @@ export default function ProductImageCarousel({
           <ChevronRight size={20} />
         </button>
 
+        {/* Dot indicators */}
         <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
           {images.map((img, i) => (
             <button
@@ -101,19 +116,37 @@ export default function ProductImageCarousel({
         </div>
       </div>
 
-      <div className="mt-4 grid grid-cols-4 gap-3">
+      {/* Thumbnail strip — only rendered when there are 2+ images */}
+      <div
+        className={clsx(
+          "mt-3 grid gap-2",
+          images.length === 2 && "grid-cols-2",
+          images.length === 3 && "grid-cols-3",
+          images.length >= 4 && "grid-cols-4"
+        )}
+      >
         {images.map((img, i) => (
           <button
             key={img.id}
             type="button"
             onClick={() => goTo(i)}
             aria-label={`View image ${i + 1}`}
+            aria-current={i === index ? "true" : undefined}
             className={clsx(
-              "relative h-20 overflow-hidden rounded-button bg-brand-light transition-all duration-200",
-              i === index ? "ring-2 ring-brand-red" : "opacity-70 hover:opacity-100"
+              "relative w-full overflow-hidden rounded-button bg-brand-light transition-all duration-200",
+              i === index
+                ? "ring-2 ring-brand-red ring-offset-1"
+                : "opacity-60 hover:opacity-100"
             )}
+            style={{ paddingBottom: "75%" /* match main 4:3 ratio */ }}
           >
-            <Image src={img.url} alt="" fill className="object-contain p-2" />
+            <Image
+              src={img.url}
+              alt=""
+              fill
+              sizes="(max-width: 768px) 25vw, 12vw"
+              className="object-contain p-1.5"
+            />
           </button>
         ))}
       </div>
