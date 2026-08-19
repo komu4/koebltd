@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -17,46 +18,46 @@ model User {
 }
 
 model Category {
-  id        String    @id @default(cuid())
-  name      String
-  slug      String    @unique
-  order     Int       @default(0)
-  imageUrl  String?
-  imagePublicId String?
-  showOnHomepage Boolean @default(true)
-  products  Product[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id             String    @id @default(cuid())
+  name           String
+  slug           String    @unique
+  order          Int       @default(0)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  imagePublicId  String?
+  imageUrl       String?
+  showOnHomepage Boolean   @default(true)
+  products       Product[]
 }
 
 model Product {
-  id             String         @id @default(cuid())
-  name           String
-  slug           String         @unique
-  categoryId     String
-  category       Category       @relation(fields: [categoryId], references: [id])
-  description    String
-  specifications Json? // key/value spec table
-  applications   String[]
-  features       String[]
-  featured       Boolean        @default(false)
-  price          Float?
-  datasheetUrl   String?
-  metaTitle      String?
+  id              String         @id @default(cuid())
+  name            String
+  slug            String         @unique
+  categoryId      String
+  description     String
+  specifications  Json?
+  applications    String[]
+  features        String[]
+  featured        Boolean        @default(false)
+  price           Float?
+  datasheetUrl    String?
+  metaTitle       String?
   metaDescription String?
-  images         ProductImage[]
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  category        Category       @relation(fields: [categoryId], references: [id])
+  images          ProductImage[]
 }
 
 model ProductImage {
   id        String   @id @default(cuid())
   productId String
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   url       String
-  publicId  String // cloudinary public_id, needed to delete from cloudinary
+  publicId  String
   order     Int      @default(0)
   createdAt DateTime @default(now())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model Service {
@@ -71,34 +72,30 @@ model Service {
 }
 
 model Partner {
-  id          String   @id @default(cuid())
-  name        String
-  logoUrl     String
+  id           String   @id @default(cuid())
+  name         String
+  logoUrl      String
   logoPublicId String?
-  website     String?
-  description String?
-  order       Int      @default(0)
-  createdAt   DateTime @default(now())
+  website      String?
+  description  String?
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
 }
 
-// Singleton row holding all editable homepage content
 model Homepage {
-  id               String   @id @default("homepage")
-  heroTitleLine1   String   @default("Pure Air.")
-  heroTitleLine2   String   @default("Powerful Performance.")
-  heroSubtitle     String   @default("High quality air filters and air compressors built for reliability and efficiency.")
-  heroPrimaryLabel String   @default("View Products")
-  heroPrimaryHref  String   @default("/products")
-  heroSecondaryLabel String @default("Our Services")
-  heroSecondaryHref String  @default("/services")
-  heroImageUrl     String?
-  heroImageUrls    Json?
-  featureCards     Json? // array of {icon,title,description}
-  aboutHeading     String   @default("About Us")
-  aboutBody        String   @default("KOEB is a trusted supplier of high quality air filters and air compressors for industrial, commercial and automotive applications.")
-  aboutImageUrl    String?
-  // About Us page gallery — 4 independently managed images (each with its
-  // Cloudinary publicId so it can be deleted/replaced from the admin dashboard).
+  id                    String   @id @default("homepage")
+  heroTitleLine1        String   @default("Pure Air.")
+  heroTitleLine2        String   @default("Powerful Performance.")
+  heroSubtitle          String   @default("High quality air filters and air compressors built for reliability and efficiency.")
+  heroPrimaryLabel      String   @default("View Products")
+  heroPrimaryHref       String   @default("/products")
+  heroSecondaryLabel    String   @default("Our Services")
+  heroSecondaryHref     String   @default("/services")
+  heroImageUrl          String?
+  featureCards          Json?
+  aboutHeading          String   @default("About Us")
+  aboutBody             String   @default("KOEB is a trusted supplier of high quality air filters and air compressors for industrial, commercial and automotive applications.")
+  aboutImageUrl         String?
   galleryImage1Url      String?
   galleryImage1PublicId String?
   galleryImage2Url      String?
@@ -107,7 +104,8 @@ model Homepage {
   galleryImage3PublicId String?
   galleryImage4Url      String?
   galleryImage4PublicId String?
-  updatedAt        DateTime @updatedAt
+  updatedAt             DateTime @updatedAt
+  heroImageUrls         Json?
 }
 
 model Media {
@@ -131,15 +129,15 @@ model ContactMessage {
 }
 
 model Settings {
-  id           String  @id @default("settings")
-  address      String  @default("19, Mojidi Street, Off Toyin Street, Ikeja, Lagos, Nigeria")
-  phone        String  @default("08023508817, 08031335765, 08038672377")
-  email        String  @default("info@koebltd.com")
-  whatsapp     String? @default("2347070070996")
-  mapsUrl      String? @default("https://www.google.com/maps?q=19+Mojidi+Street,+Off+Toyin+Street,+Ikeja,+Lagos,+Nigeria&output=embed")
-  businessHours String @default("Mon - Fri: 8:00 AM - 6:00 PM")
-  facebookUrl  String? @default("https://www.facebook.com/profile.php?id=61573895350637")
-  instagramUrl String? @default("https://www.instagram.com/koebindustrialsolutionsltd/")
-  linkedinUrl  String? @default("https://www.linkedin.com/company/105698550/admin/edit/?editPageActiveTab=info")
-  twitterUrl   String?
+  id            String  @id @default("settings")
+  address       String  @default("19, Mojidi Street, Off Toyin Street, Ikeja, Lagos, Nigeria")
+  phone         String  @default("08023508817, 08031335765, 08038672377")
+  email         String  @default("info@koebltd.com")
+  whatsapp      String? @default("2347070070996")
+  mapsUrl       String? @default("https://www.google.com/maps?q=19+Mojidi+Street,+Off+Toyin+Street,+Ikeja,+Lagos,+Nigeria&output=embed")
+  businessHours String  @default("Mon - Fri: 8:00 AM - 6:00 PM")
+  facebookUrl   String? @default("https://www.facebook.com/profile.php?id=61573895350637")
+  instagramUrl  String? @default("https://www.instagram.com/koebindustrialsolutionsltd/")
+  linkedinUrl   String? @default("https://www.linkedin.com/company/105698550/admin/edit/?editPageActiveTab=info")
+  twitterUrl    String?
 }

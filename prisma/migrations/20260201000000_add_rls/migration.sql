@@ -4,9 +4,8 @@
 -- This migration enables RLS on every application table and defines the
 -- minimal set of policies required for the app to function correctly:
 --
---   • The Next.js server connects as the "service_role" (bypasses RLS) via
---     the DATABASE_URL connection string that uses the pooler with the
---     service role key — so all server-side Prisma queries continue to work.
+--   • The Next.js server connects as the "prisma_app" role (non-superuser,
+--     BYPASSRLS=false) — so RLS is enforced and these policies apply.
 --
 --   • The "anon" and "authenticated" Supabase roles (used by the Supabase
 --     JS client in a browser) are explicitly restricted below.
@@ -20,13 +19,20 @@
 -- ---------------------------------------------------------------------------
 ALTER TABLE "User" ENABLE ROW LEVEL SECURITY;
 
--- No public access; service_role bypasses RLS automatically
+-- No public access; prisma_app has full access for NextAuth login checks
 CREATE POLICY "user_no_public_access"
   ON "User"
   AS RESTRICTIVE
   FOR ALL
   TO anon, authenticated
   USING (false);
+
+CREATE POLICY "user_prisma_app_all"
+  ON "User"
+  FOR ALL
+  TO prisma_app
+  USING (true)
+  WITH CHECK (true);
 
 -- ---------------------------------------------------------------------------
 -- 2. Category  (public read, admin write)
@@ -39,10 +45,10 @@ CREATE POLICY "category_public_read"
   TO anon, authenticated
   USING (true);
 
-CREATE POLICY "category_service_write"
+CREATE POLICY "category_prisma_app_all"
   ON "Category"
   FOR ALL
-  TO service_role
+  TO prisma_app
   USING (true)
   WITH CHECK (true);
 
@@ -57,10 +63,10 @@ CREATE POLICY "service_public_read"
   TO anon, authenticated
   USING (true);
 
-CREATE POLICY "service_service_write"
+CREATE POLICY "service_prisma_app_all"
   ON "Service"
   FOR ALL
-  TO service_role
+  TO prisma_app
   USING (true)
   WITH CHECK (true);
 
@@ -75,10 +81,10 @@ CREATE POLICY "partner_public_read"
   TO anon, authenticated
   USING (true);
 
-CREATE POLICY "partner_service_write"
+CREATE POLICY "partner_prisma_app_all"
   ON "Partner"
   FOR ALL
-  TO service_role
+  TO prisma_app
   USING (true)
   WITH CHECK (true);
 
@@ -93,10 +99,10 @@ CREATE POLICY "homepage_public_read"
   TO anon, authenticated
   USING (true);
 
-CREATE POLICY "homepage_service_write"
+CREATE POLICY "homepage_prisma_app_all"
   ON "Homepage"
   FOR ALL
-  TO service_role
+  TO prisma_app
   USING (true)
   WITH CHECK (true);
 
@@ -111,15 +117,15 @@ CREATE POLICY "media_public_read"
   TO anon, authenticated
   USING (true);
 
-CREATE POLICY "media_service_write"
+CREATE POLICY "media_prisma_app_all"
   ON "Media"
   FOR ALL
-  TO service_role
+  TO prisma_app
   USING (true)
   WITH CHECK (true);
 
 -- ---------------------------------------------------------------------------
--- 7. ContactMessage  (insert-only for public; full access for service_role)
+-- 7. ContactMessage  (insert-only for public; full access for prisma_app)
 -- ---------------------------------------------------------------------------
 ALTER TABLE "ContactMessage" ENABLE ROW LEVEL SECURITY;
 
@@ -130,11 +136,11 @@ CREATE POLICY "contact_public_insert"
   TO anon, authenticated
   WITH CHECK (true);
 
--- Only service_role (server / admin API) can read or manage messages
-CREATE POLICY "contact_service_all"
+-- Only prisma_app (server / admin API) can read or manage messages
+CREATE POLICY "contact_prisma_app_all"
   ON "ContactMessage"
   FOR ALL
-  TO service_role
+  TO prisma_app
   USING (true)
   WITH CHECK (true);
 
@@ -149,10 +155,10 @@ CREATE POLICY "settings_public_read"
   TO anon, authenticated
   USING (true);
 
-CREATE POLICY "settings_service_write"
+CREATE POLICY "settings_prisma_app_all"
   ON "Settings"
   FOR ALL
-  TO service_role
+  TO prisma_app
   USING (true)
   WITH CHECK (true);
 
@@ -167,10 +173,10 @@ CREATE POLICY "product_public_read"
   TO anon, authenticated
   USING (true);
 
-CREATE POLICY "product_service_write"
+CREATE POLICY "product_prisma_app_all"
   ON "Product"
   FOR ALL
-  TO service_role
+  TO prisma_app
   USING (true)
   WITH CHECK (true);
 
@@ -185,9 +191,9 @@ CREATE POLICY "product_image_public_read"
   TO anon, authenticated
   USING (true);
 
-CREATE POLICY "product_image_service_write"
+CREATE POLICY "product_image_prisma_app_all"
   ON "ProductImage"
   FOR ALL
-  TO service_role
+  TO prisma_app
   USING (true)
   WITH CHECK (true);
