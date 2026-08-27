@@ -33,26 +33,26 @@ const securityHeaders = [
       .trim(),
   },
 
-  // 4. X-Frame-Options — prevents clickjacking
+  // 4. X-Frame-Options , prevents clickjacking
   // SAMEORIGIN allows Google Maps embed in your own pages while blocking third-party framing.
   {
     key: "X-Frame-Options",
     value: "SAMEORIGIN",
   },
 
-  // 5. X-Content-Type-Options — prevents MIME-type sniffing
+  // 5. X-Content-Type-Options , prevents MIME-type sniffing
   {
     key: "X-Content-Type-Options",
     value: "nosniff",
   },
 
-  // 6. Referrer-Policy — only send referrer to same origin; strips it for cross-origin
+  // 6. Referrer-Policy , only send referrer to same origin; strips it for cross-origin
   {
     key: "Referrer-Policy",
     value: "strict-origin-when-cross-origin",
   },
 
-  // 7. Permissions-Policy — opt out of browser features the site does not use
+  // 7. Permissions-Policy , opt out of browser features the site does not use
   {
     key: "Permissions-Policy",
     value: [
@@ -67,7 +67,7 @@ const securityHeaders = [
     ].join(", "),
   },
 
-  // Strict-Transport-Security (bonus) — enforces HTTPS for 1 year
+  // Strict-Transport-Security (bonus) , enforces HTTPS for 1 year
   {
     key: "Strict-Transport-Security",
     value: "max-age=31536000; includeSubDomains; preload",

@@ -57,7 +57,7 @@ export default function ImageUploader({
       }
       onChange([...value, ...uploads]);
     } catch {
-      setError("Upload failed — check your Cloudinary credentials in .env");
+      setError("Upload failed , check your Cloudinary credentials in .env");
     } finally {
       setLoading(null);
     }
@@ -74,7 +74,7 @@ export default function ImageUploader({
       next[index] = uploaded;
       onChange(next);
     } catch {
-      setError("Upload failed — check your Cloudinary credentials in .env");
+      setError("Upload failed , check your Cloudinary credentials in .env");
     } finally {
       setLoading(null);
     }
@@ -99,6 +99,7 @@ export default function ImageUploader({
                 src={img.url}
                 alt={`Product image ${i + 1}`}
                 fill
+                                sizes="(max-width: 640px) 50vw, 25vw"
                 className="object-contain p-2"
               />
               {/* Overlay on hover */}

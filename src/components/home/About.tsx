@@ -44,6 +44,7 @@ export default function About({
               src={imageUrl || "/images/about-building.svg"}
               alt="KOEB office building"
               fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
             />
           </motion.div>

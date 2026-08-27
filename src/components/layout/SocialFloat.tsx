@@ -2,8 +2,6 @@
 
 import { Instagram, Linkedin, Facebook } from "lucide-react";
 
-// lucide-react has no official WhatsApp glyph, so it's drawn as a small inline SVG
-// (kept visually consistent with the other lucide icons: 18px, stroke-based).
 function WhatsAppIcon({ size = 18, className = "" }: { size?: number; className?: string }) {
   return (
     <svg
@@ -39,13 +37,15 @@ export default function SocialFloat({
         instagramUrl ||
         "https://www.instagram.com/koebindustrialsolutionsltd/",
       Icon: Instagram,
-      color: "text-pink-500",
+      iconColor: "text-rose-500",
+      btnHover: "hover:bg-rose-500/20 hover:border-rose-400/60 hover:shadow-[0_8px_25px_rgba(244,63,94,0.35)]",
     },
     {
       label: "WhatsApp",
       href: `https://wa.me/${whatsapp || "2347070070996"}`,
       Icon: WhatsAppIcon,
-      color: "text-green-500",
+      iconColor: "text-emerald-500",
+      btnHover: "hover:bg-emerald-500/20 hover:border-emerald-400/60 hover:shadow-[0_8px_25px_rgba(16,185,129,0.35)]",
     },
     {
       label: "LinkedIn",
@@ -53,7 +53,8 @@ export default function SocialFloat({
         linkedinUrl ||
         "https://www.linkedin.com/company/105698550/admin/edit/?editPageActiveTab=info",
       Icon: Linkedin,
-      color: "text-blue-600",
+      iconColor: "text-sky-400",
+      btnHover: "hover:bg-sky-500/20 hover:border-sky-400/60 hover:shadow-[0_8px_25px_rgba(14,165,233,0.35)]",
     },
     {
       label: "Facebook",
@@ -61,7 +62,8 @@ export default function SocialFloat({
         facebookUrl ||
         "https://www.facebook.com/profile.php?id=61573895350637",
       Icon: Facebook,
-      color: "text-blue-500",
+      iconColor: "text-blue-500",
+      btnHover: "hover:bg-blue-500/20 hover:border-blue-400/60 hover:shadow-[0_8px_25px_rgba(59,130,246,0.35)]",
     },
   ];
 
@@ -70,17 +72,17 @@ export default function SocialFloat({
       className="fixed right-2 top-1/2 z-40 flex -translate-y-1/2 flex-col gap-2 sm:right-4 sm:gap-3"
       aria-label="Social media links"
     >
-      {links.map(({ label, href, Icon, color }) => (
+      {links.map(({ label, href, Icon, iconColor, btnHover }) => (
         <a
           key={label}
           href={href}
           target="_blank"
           rel="noopener noreferrer"
           aria-label={label}
-          className="flex h-9 w-9 items-center justify-center border border-white/20 rounded-full bg-white/10 backdrop-blur-lg shadow-lg transition-all duration-300 hover:-translate-x-1 hover:bg-brand-red hover:shadow-lg sm:h-11 sm:w-11"
+          className={`group flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/10 backdrop-blur-md backdrop-saturate-150 shadow-[0_8px_25px_rgba(0,0,0,0.12),inset_0_1px_1px_rgba(255,255,255,0.8),inset_0_-1px_1px_rgba(255,255,255,0.2)] transition-all duration-300 hover:-translate-x-1 hover:scale-105 sm:h-11 sm:w-11 ${btnHover}`}
         >
-          <Icon size={16} className={`${color} sm:hidden`} />
-          <Icon size={20} className={`${color} hidden sm:block`} />
+          <Icon size={16} className={`transition-transform duration-300 group-hover:scale-110 ${iconColor} sm:hidden`} />
+          <Icon size={20} className={`hidden transition-transform duration-300 group-hover:scale-110 ${iconColor} sm:block`} />
         </a>
       ))}
     </div>

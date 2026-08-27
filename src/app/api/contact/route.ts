@@ -13,7 +13,7 @@ async function sendContactEmail(data: {
 }) {
   // Only attempt to send if SMTP credentials are configured
   if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
-    console.warn("[contact] SMTP not configured — skipping email notification");
+    console.warn("[contact] SMTP not configured , skipping email notification");
     return;
   }
 
@@ -39,19 +39,19 @@ async function sendContactEmail(data: {
     text: [
       `Name:    ${data.name}`,
       `Email:   ${data.email}`,
-      `Phone:   ${data.phone ?? "—"}`,
-      `Subject: ${data.subject ?? "—"}`,
+      `Phone:   ${data.phone ?? ","}`,
+      `Subject: ${data.subject ?? ","}`,
       ``,
       `Message:`,
       data.message,
     ].join("\n"),
     html: `
-      <h2 style="margin:0 0 16px">New contact message — KOEB</h2>
+      <h2 style="margin:0 0 16px">New contact message , KOEB</h2>
       <table cellpadding="4" cellspacing="0" style="font-family:sans-serif;font-size:14px;border-collapse:collapse">
         <tr><td style="font-weight:600;padding-right:16px">Name</td><td>${data.name}</td></tr>
         <tr><td style="font-weight:600;padding-right:16px">Email</td><td><a href="mailto:${data.email}">${data.email}</a></td></tr>
-        <tr><td style="font-weight:600;padding-right:16px">Phone</td><td>${data.phone ?? "—"}</td></tr>
-        <tr><td style="font-weight:600;padding-right:16px">Subject</td><td>${data.subject ?? "—"}</td></tr>
+        <tr><td style="font-weight:600;padding-right:16px">Phone</td><td>${data.phone ?? ","}</td></tr>
+        <tr><td style="font-weight:600;padding-right:16px">Subject</td><td>${data.subject ?? ","}</td></tr>
       </table>
       <h3 style="margin:24px 0 8px">Message</h3>
       <p style="font-family:sans-serif;font-size:14px;white-space:pre-wrap">${data.message}</p>
@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
 
   const message = await prisma.contactMessage.create({ data: parsed.data });
 
-  // Fire-and-forget — don't fail the request if email sending fails
+  // Fire-and-forget , don't fail the request if email sending fails
   sendContactEmail(parsed.data).catch((err) =>
     console.error("[contact] Email notification failed:", err)
   );

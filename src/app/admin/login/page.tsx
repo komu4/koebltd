@@ -31,7 +31,7 @@ export default function AdminLoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-brand-dark px-4">
       <div className="w-full max-w-sm rounded-card bg-white p-8 shadow-xl">
         <div className="relative mx-auto mb-6 h-10 w-32">
-          <Image src="/images/koeb-logo.png" alt="KOEB" fill className="object-contain" />
+          <Image src="/images/koeb-logo.png" alt="KOEB" fill sizes="128px" className="object-contain" />
         </div>
         <h1 className="text-center font-heading text-xl font-bold">Admin Login</h1>
         <form onSubmit={onSubmit} className="mt-6 space-y-4">

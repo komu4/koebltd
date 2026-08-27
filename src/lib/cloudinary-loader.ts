@@ -12,7 +12,7 @@
 type LoaderParams = { src: string; width: number; quality?: number };
 
 export default function cloudinaryLoader({ src, width, quality }: LoaderParams): string {
-  // Only transform Cloudinary URLs — leave everything else untouched.
+  // Only transform Cloudinary URLs , leave everything else untouched.
   if (!src.includes("res.cloudinary.com")) {
     return src;
   }

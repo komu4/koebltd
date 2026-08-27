@@ -101,7 +101,7 @@ export default async function ProductsPage({
 
           {products.length === 0 ? (
             <p className="py-20 text-center text-brand-text/60">
-              No products yet — connect your database and add products from the admin dashboard to see them here.
+              No products yet , connect your database and add products from the admin dashboard to see them here.
             </p>
           ) : (
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -116,6 +116,7 @@ export default async function ProductsPage({
                       src={p.images[0]?.url || "/images/products/product-gallery-1.svg"}
                       alt={p.name}
                       fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       className="object-contain p-4 transition-transform duration-300 group-hover:scale-105"
                     />
                   </div>

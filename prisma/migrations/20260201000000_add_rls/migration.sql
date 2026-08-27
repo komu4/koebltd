@@ -5,7 +5,7 @@
 -- minimal set of policies required for the app to function correctly:
 --
 --   • The Next.js server connects as the "prisma_app" role (non-superuser,
---     BYPASSRLS=false) — so RLS is enforced and these policies apply.
+--     BYPASSRLS=false) , so RLS is enforced and these policies apply.
 --
 --   • The "anon" and "authenticated" Supabase roles (used by the Supabase
 --     JS client in a browser) are explicitly restricted below.
@@ -15,7 +15,7 @@
 -- =============================================================================
 
 -- ---------------------------------------------------------------------------
--- 1. User  (admin accounts — never readable/writable from the browser)
+-- 1. User  (admin accounts , never readable/writable from the browser)
 -- ---------------------------------------------------------------------------
 ALTER TABLE "User" ENABLE ROW LEVEL SECURITY;
 

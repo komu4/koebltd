@@ -67,7 +67,7 @@ export default async function AboutPage() {
             </p>
           </div>
           <div className="relative h-80 overflow-hidden rounded-section">
-            <Image src="/images/about-building.svg" alt="KOEB headquarters" fill className="object-cover" />
+            <Image src="/images/about-building.svg" alt="KOEB headquarters" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
           </div>
         </Container>
       </section>

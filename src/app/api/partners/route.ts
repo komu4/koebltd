@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     data: { ...parsed.data, logoUrl: body.logoUrl, logoPublicId: body.logoPublicId },
   });
 
-  // Partners are shown on both the Homepage ("/") and the Partners page — both
+  // Partners are shown on both the Homepage ("/") and the Partners page , both
   // read from this same table, so both must be revalidated on every change or
   // one of them will keep serving a stale cached render.
   revalidatePath("/");

@@ -1,4 +1,4 @@
--- Adds the About Us gallery columns to Homepage (this is what was missing —
+-- Adds the About Us gallery columns to Homepage (this is what was missing ,
 -- causing "Prisma error P2022: column Homepage.galleryImage1Url does not
 -- exist"). Existing Homepage data is untouched; the new columns are
 -- nullable, so no data loss and no default values are forced on it.

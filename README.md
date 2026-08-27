@@ -14,7 +14,7 @@ This update adds new `galleryImage1Url` … `galleryImage4Url`/`PublicId` column
 `Homepage` table (fixes `Prisma error P2022: column Homepage.galleryImage1Url does not exist`)
 and corrects the `Settings` row's WhatsApp/social links to the official accounts.
 
-**If your database already has data in it** (the common case — you already ran `migrate dev
+**If your database already has data in it** (the common case , you already ran `migrate dev
 --name init` before and seeded it), adopt the new migration folder without re-running the
 baseline SQL, since your tables already exist:
 
@@ -42,17 +42,17 @@ npm install
 ```
 
 > Note: `npm install` runs `prisma generate` automatically (via `postinstall`). This needs normal
-> internet access to Prisma's binary CDN — if it fails in a locked-down/offline environment, just
+> internet access to Prisma's binary CDN , if it fails in a locked-down/offline environment, just
 > run `npx prisma generate` again once you have full network access.
 
 ## 2. Configure environment variables
 
 Copy `.env.example` to `.env` and fill in:
 
-- `DATABASE_URL` — a PostgreSQL connection string (Vercel Postgres, Supabase, Neon, Railway, or your own instance all work)
-- `NEXTAUTH_SECRET` — generate with `openssl rand -base64 32`
-- `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` — from your Cloudinary dashboard
-- `ADMIN_EMAIL` / `ADMIN_PASSWORD` — used once by the seed script to create your first admin login
+- `DATABASE_URL` , a PostgreSQL connection string (Vercel Postgres, Supabase, Neon, Railway, or your own instance all work)
+- `NEXTAUTH_SECRET` , generate with `openssl rand -base64 32`
+- `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` , from your Cloudinary dashboard
+- `ADMIN_EMAIL` / `ADMIN_PASSWORD` , used once by the seed script to create your first admin login
 
 ## 3. Set up the database
 
@@ -62,7 +62,7 @@ npm run db:seed
 ```
 
 This creates all tables and seeds: your admin user, default homepage content, product categories,
-two sample products, the four partner logos, and the services list — all editable afterwards from
+two sample products, the four partner logos, and the services list , all editable afterwards from
 `/admin`.
 
 ## 4. Run it
@@ -82,24 +82,24 @@ either locally pointed at the prod `DATABASE_URL`, or via a Vercel build step.
 
 ## What's editable from the admin dashboard
 
-- **Homepage** — hero heading/subtitle/buttons/background image, the four feature cards, the About
+- **Homepage** , hero heading/subtitle/buttons/background image, the four feature cards, the About
   section text and image
-- **Products** — full CRUD, multiple images per product, specs table, applications, features
-- **Categories** — full CRUD
-- **Services** — full CRUD
-- **Partners** — full CRUD with logo upload and display order
-- **Messages** — inbox for the contact form, mark read/unread, delete, export CSV
+- **Products** , full CRUD, multiple images per product, specs table, applications, features
+- **Categories** , full CRUD
+- **Services** , full CRUD
+- **Partners** , full CRUD with logo upload and display order
+- **Messages** , inbox for the contact form, mark read/unread, delete, export CSV
 
 Every image uploaded through the dashboard goes to Cloudinary; only the resulting URL is stored in
 Postgres, and deleting an image from the dashboard also removes it from Cloudinary.
 
 ## Placeholder images
 
-Every image referenced in `public/images` right now is a plain SVG placeholder — this sandbox has
+Every image referenced in `public/images` right now is a plain SVG placeholder , this sandbox has
 no access to stock-photo sites, so nothing here is an AI-generated image, but nothing is a real
 photo either. Swap in real stock JPGs and transparent PNGs (hero background, compressor/filter
 cutouts, office building, partner logos) either by replacing the files directly or, once Cloudinary
-is configured, by uploading through the admin dashboard — every image slot on the site reads its
+is configured, by uploading through the admin dashboard , every image slot on the site reads its
 URL from the database and is replaceable without touching code.
 
 ## Project structure
@@ -127,8 +127,8 @@ prisma/
 ## Known limitation from this build environment
 
 This project was generated in a sandbox with no access to a live Postgres instance, no Cloudinary
-account, and no access to Prisma's binary CDN — so it could not be run end-to-end or screenshot-
+account, and no access to Prisma's binary CDN , so it could not be run end-to-end or screenshot-
 tested here. The code has been type-checked (`tsc --noEmit`) and every remaining error at hand-off
-time is an "implicit any" caused by Prisma Client types not being generated offline — not a logic
+time is an "implicit any" caused by Prisma Client types not being generated offline , not a logic
 bug. Run through steps 1–4 above in your own environment to bring it fully to life, and open an
 issue-style note back if anything doesn't behave as expected.

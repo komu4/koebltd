@@ -34,7 +34,7 @@ export default function ContactForm() {
   if (status === "sent") {
     return (
       <p className="rounded-button bg-green-50 p-6 text-sm text-green-700">
-        Thanks for reaching out — we've received your message and will reply soon.
+        Thanks for reaching out , we've received your message and will reply soon.
       </p>
     );
   }
@@ -84,7 +84,7 @@ export default function ContactForm() {
         {status === "sending" ? "Sending..." : "Send Message"}
       </Button>
       {status === "error" && (
-        <p className="text-xs text-red-600">Something went wrong — please try again.</p>
+        <p className="text-xs text-red-600">Something went wrong , please try again.</p>
       )}
     </form>
   );

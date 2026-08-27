@@ -22,7 +22,10 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  const reduceMotion = useReducedMotion();
+  const reducedMotionRaw = useReducedMotion();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+  const reduceMotion = mounted ? (reducedMotionRaw ?? false) : false;
 
   useEffect(() => {
     let ticking = false;
@@ -45,15 +48,27 @@ export default function Navbar() {
   }, [pathname]);
 
   return (
-    <header
-      className={clsx(
-        "sticky top-0 z-50 w-full transition-[background-color,box-shadow,border-color,backdrop-filter,transform] duration-500 ease-out",
-        scrolled
-          ? "border-b border-white/20 bg-white/75 shadow-[0_8px_30px_rgba(0,0,0,0.08)] backdrop-blur-xl"
-          : "border-b border-transparent bg-white shadow-none"
-      )}
-    >
-      <Container className="flex h-20 items-center justify-between">
+<header
+  className={clsx(
+    "sticky top-0 z-50 w-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+    scrolled
+      ? "mx-auto mt-3 w-[calc(100%-24px)] scale-[0.98] rounded-2xl border border-white/30 bg-white/8 shadow-[0_8px_32px_rgba(0,0,0,0.12),inset_0_1px_1px_rgba(255,255,255,0.8),inset_0_-1px_1px_rgba(255,255,255,0.2)] backdrop-blur-md backdrop-saturate-150"
+      : "scale-100 border-b border-transparent bg-white shadow-none"
+  )}
+>
+  {scrolled && (
+    <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-2xl">
+      {/* Curved glossy sheen */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent" />
+
+      {/* Top rim specular edge */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/90 to-transparent" />
+
+      {/* Bottom rim edge reflection */}
+      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+    </div>
+  )}
+  <Container className="flex h-20 items-center justify-between">
         <Link
           href="/"
           className="relative block h-10 w-32 shrink-0 transition-transform duration-500 ease-out hover:scale-[1.02]"
@@ -104,7 +119,7 @@ export default function Navbar() {
 
       <div
         className={clsx(
-          "overflow-hidden border-t border-white/15 bg-white/80 shadow-2xl backdrop-blur-xl transition-[max-height,opacity] duration-500 ease-out md:hidden",
+          "overflow-hidden border-t border-white/20 bg-white/35 shadow-2xl backdrop-blur-2xl backdrop-saturate-150 transition-[max-height,opacity] duration-500 ease-out md:hidden",
           open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         )}
       >

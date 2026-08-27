@@ -71,7 +71,7 @@ export default function AdminMessagesPage() {
           <div key={m.id} className={`rounded-card bg-white p-5 shadow-sm ${!m.read ? "border-l-4 border-brand-red" : ""}`}>
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="min-w-0 flex-1">
-                <p className="break-words font-heading font-semibold">{m.name} <span className="font-normal text-brand-text/50">— {m.email}</span></p>
+                <p className="break-words font-heading font-semibold">{m.name} <span className="font-normal text-brand-text/50">, {m.email}</span></p>
                 {m.subject && <p className="text-sm text-brand-text/60">{m.subject}</p>}
                 <p className="mt-2 text-sm text-brand-text/80">{m.message}</p>
                 <p className="mt-2 text-xs text-brand-text/40">{new Date(m.createdAt).toLocaleString()}</p>

@@ -52,7 +52,7 @@ export default function AdminProductsPage() {
           <p className="p-6 text-sm text-brand-text/60">Loading...</p>
         ) : products.length === 0 ? (
           <p className="p-6 text-sm text-brand-text/60">
-            No products yet — connect your database (see .env.example) and add your first product.
+            No products yet , connect your database (see .env.example) and add your first product.
           </p>
         ) : (
           <table className="w-full min-w-[560px] text-sm">
@@ -71,7 +71,7 @@ export default function AdminProductsPage() {
                   <td className="px-5 py-3">
                     <div className="relative h-12 w-12 rounded-button bg-brand-light overflow-hidden">
                       {p.images[0] && (
-                        <Image src={p.images[0].url} alt="" fill className="object-contain p-1" />
+                        <Image src={p.images[0].url} alt="" fill sizes="48px" className="object-contain p-1" />
                       )}
                     </div>
                   </td>

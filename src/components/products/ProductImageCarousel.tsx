@@ -21,7 +21,7 @@ export default function ProductImageCarousel({
   if (images.length <= 1) {
     return (
       <div className="w-full overflow-hidden rounded-section bg-brand-light">
-        {/* Fixed-aspect main image container — controls size, image adapts inside */}
+        {/* Fixed-aspect main image container , controls size, image adapts inside */}
         <div className="relative w-full" style={{ paddingBottom: "75%" /* 4:3 ratio */ }}>
           <Image
             src={images[0].url}
@@ -55,7 +55,7 @@ export default function ProductImageCarousel({
 
   return (
     <div>
-      {/* Main image area — padding-bottom trick keeps aspect ratio stable */}
+      {/* Main image area , padding-bottom trick keeps aspect ratio stable */}
       <div
         className="group relative w-full select-none overflow-hidden rounded-section bg-brand-light"
         style={{ paddingBottom: "75%" /* 4:3, image fills without layout shift */ }}
@@ -72,7 +72,7 @@ export default function ProductImageCarousel({
           >
             <Image
               src={img.url}
-              alt={`${alt} — image ${i + 1} of ${images.length}`}
+              alt={`${alt} - image ${i + 1} of ${images.length}`}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-contain p-6"
@@ -116,7 +116,7 @@ export default function ProductImageCarousel({
         </div>
       </div>
 
-      {/* Thumbnail strip — only rendered when there are 2+ images */}
+      {/* Thumbnail strip , only rendered when there are 2+ images */}
       <div
         className={clsx(
           "mt-3 grid gap-2",

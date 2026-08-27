@@ -127,7 +127,7 @@ export default function AdminPartnersPage() {
           <div key={p.id} className="flex flex-wrap items-center justify-between gap-3 rounded-card bg-white p-5 shadow-sm">
             <div className="flex min-w-0 items-center gap-4">
               <div className="relative h-10 w-20 shrink-0">
-                <Image src={p.logoUrl} alt={p.name} fill className="object-contain" />
+                <Image src={p.logoUrl} alt={p.name} fill sizes="80px" className="object-contain" />
               </div>
               <p className="truncate font-heading font-semibold">{p.name}</p>
             </div>

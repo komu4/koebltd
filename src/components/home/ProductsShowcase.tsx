@@ -32,7 +32,7 @@ export default function ProductsShowcase({ categories }: { categories: CategoryC
               <span className="mx-auto mt-2 block h-[2px] w-12 bg-brand-red" />
               <div className="relative mx-auto mt-6 h-48">
                 {category.imageUrl ? (
-                  <Image src={category.imageUrl} alt={category.name} fill className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.035]" />
+                  <Image src={category.imageUrl} alt={category.name} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.035]" />
                 ) : (
                   <div className="flex h-full items-center justify-center text-sm text-brand-text/40">No image</div>
                 )}

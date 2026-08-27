@@ -11,7 +11,7 @@
 --
 -- If you are setting up a brand new, empty database, this file (together
 -- with the migration that follows it) will create the full schema from
--- scratch — just run `npx prisma migrate deploy`.
+-- scratch , just run `npx prisma migrate deploy`.
 
 -- CreateTable
 CREATE TABLE "User" (

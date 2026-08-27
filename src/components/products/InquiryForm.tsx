@@ -32,7 +32,7 @@ export default function InquiryForm({ productName }: { productName: string }) {
   };
 
   if (status === "sent") {
-    return <p className="mt-6 rounded-button bg-green-50 p-4 text-sm text-green-700">Thanks — we received your inquiry and will be in touch shortly.</p>;
+    return <p className="mt-6 rounded-button bg-green-50 p-4 text-sm text-green-700">Thanks , we received your inquiry and will be in touch shortly.</p>;
   }
 
   return (
@@ -66,7 +66,7 @@ export default function InquiryForm({ productName }: { productName: string }) {
         {status === "sending" ? "Sending..." : "Send Inquiry"}
       </Button>
       {status === "error" && (
-        <p className="text-xs text-red-600">Something went wrong — please try again.</p>
+        <p className="text-xs text-red-600">Something went wrong , please try again.</p>
       )}
     </form>
   );

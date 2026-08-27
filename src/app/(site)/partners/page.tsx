@@ -45,7 +45,7 @@ export default async function PartnersPage() {
             {partners.map((p) => (
               <div key={p.id} className="flex items-center gap-6 rounded-card border border-brand-border p-6">
                 <div className="relative h-16 w-32 shrink-0">
-                  <Image src={p.logoUrl} alt={p.name} fill className="object-contain" />
+                  <Image src={p.logoUrl} alt={p.name} fill sizes="128px" className="object-contain" />
                 </div>
                 <div>
                   <h3 className="font-heading font-bold">{p.name}</h3>

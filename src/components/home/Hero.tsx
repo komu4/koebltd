@@ -31,7 +31,15 @@ export default function Hero({
   backgroundImageUrl,
   backgroundImageUrls,
 }: HeroProps) {
-  const shouldReduceMotion = useReducedMotion();
+  // useReducedMotion() returns null on the server and the first
+  // client render.  Using null directly would make the `initial` prop
+  // differ between SSR and CSR, producing a hydration warning.
+  // We always start with false (= full animations) so both sides
+  // render identical HTML; after hydration we switch to the real value.
+  const reducedMotionRaw = useReducedMotion();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+  const shouldReduceMotion = mounted ? (reducedMotionRaw ?? false) : false;
 
   const images = useMemo(() => {
     const configured = (backgroundImageUrls || [])
@@ -204,7 +212,9 @@ function HeroBackground({
   reduceMotion,
 }: {
   images: string[];
-  reduceMotion: boolean | null;
+  // Caller (Hero) always resolves null → false before passing this in,
+  // so the type here is a plain boolean with no null branch.
+  reduceMotion: boolean;
 }) {
   const [active, setActive] = useState(0);
 

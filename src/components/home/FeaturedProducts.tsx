@@ -41,6 +41,7 @@ export default async function FeaturedProducts() {
                   src={p.images[0]?.url || "/images/products/product-gallery-1.svg"}
                   alt={p.name}
                   fill
+                                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   loading="lazy"
                   className="object-contain p-4 transition-transform duration-300 group-hover:scale-105"
                 />

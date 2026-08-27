@@ -6,7 +6,7 @@
 --
 --   • The Next.js server connects as the "service_role" (bypasses RLS) via
 --     the DATABASE_URL connection string that uses the pooler with the
---     service role key — so all server-side Prisma queries continue to work.
+--     service role key , so all server-side Prisma queries continue to work.
 --
 --   • The "anon" and "authenticated" Supabase roles (used by the Supabase
 --     JS client in a browser) are explicitly restricted below.
@@ -16,7 +16,7 @@
 -- =============================================================================
 
 -- ---------------------------------------------------------------------------
--- 1. User  (admin accounts — never readable/writable from the browser)
+-- 1. User  (admin accounts , never readable/writable from the browser)
 -- ---------------------------------------------------------------------------
 ALTER TABLE "User" ENABLE ROW LEVEL SECURITY;
 

@@ -43,7 +43,7 @@ export default function AdminSidebar({ mobileOpen = false, onNavigate }: AdminSi
       )}
     >
       <div className="relative h-10 w-32 mx-6 mt-6 shrink-0">
-        <Image src="/images/koeb-logo.png" alt="KOEB" fill className="object-contain object-left" />
+        <Image src="/images/koeb-logo.png" alt="KOEB" fill sizes="128px" className="object-contain object-left" />
       </div>
 
       <nav className="mt-8 flex-1 space-y-1 px-3">

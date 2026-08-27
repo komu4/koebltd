@@ -22,7 +22,7 @@ async function getHomepageData() {
     ]);
     return { homepage, partners, categories };
   } catch {
-    // DB not connected yet (e.g. running without DATABASE_URL configured) — fall back to defaults
+    // DB not connected yet (e.g. running without DATABASE_URL configured) , fall back to defaults
     return { homepage: null, partners: [], categories: [] };
   }
 }
